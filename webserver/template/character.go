@@ -52,6 +52,11 @@ func CharacterInventory(w http.ResponseWriter, r *http.Request) {
 	}
 	params := r.URL.Query()
 	id := params.Get("cid")
+	if len(id) == 0 {
+		//log.Println("Empty ID!")
+
+		id = "2"
+	}
 
 	resp.Character, err = character.GetById(db, id)
 	db.Close()

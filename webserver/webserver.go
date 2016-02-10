@@ -1,7 +1,7 @@
 package webserver
 
 import (
-	"github.com/gorilla/pat"
+	//"github.com/gorilla/pat"
 	"github.com/xackery/eqemuconfig"
 	"github.com/xackery/shinshop/database"
 	"github.com/xackery/shinshop/webserver/rest"
@@ -22,16 +22,18 @@ func Start(addr string) (err error) {
 		log.Println("Error connecting to DB:", err.Error())
 		return
 	}
-	r := pat.New()
-	r.Get("/", Index)
-	r.Get("/item/", template.ItemIndex)
-	r.Get("/character/", template.CharacterIndex)
-	r.Get("/character/inventory/:cid", template.CharacterInventory)
-	r.Get("/item/editor/", template.ItemEditor)
-	r.Get("/rest/", rest.Index)
-	r.Get("/rest/item/getbyid", rest.ItemGetById)
-	r.Get("/rest/inventory/getbycharacterid", rest.InventoryGetByCharacterId)
-	http.Handle("/", r)
+
+	//r := pat.New()
+
+	http.HandleFunc("/", Index)
+	http.HandleFunc("/item/", template.ItemIndex)
+	http.HandleFunc("/character/", template.CharacterIndex)
+	http.HandleFunc("/character/inventory/{cid}", template.CharacterInventory)
+	http.HandleFunc("/item/editor/", template.ItemEditor)
+	http.HandleFunc("/rest/", rest.Index)
+	http.HandleFunc("/rest/item/getbyid", rest.ItemGetById)
+	http.HandleFunc("/rest/inventory/getbycharacterid", rest.InventoryGetByCharacterId)
+	//http.Handle("/", r)
 	log.Println("Started Web Server on", addr)
 	err = http.ListenAndServe(addr, nil)
 	return
@@ -40,7 +42,8 @@ func Start(addr string) (err error) {
 func Index(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/" {
 		//log.Println("Request to", r.URL.Path)
-		http.FileServer(assetFS()).ServeHTTP(w, r)
+		//http.FileServer(assetFS()).ServeHTTP(w, r)
+		http.FileServer(http.Dir("webserver/web/")).ServeHTTP(w, r)
 		return
 	}
 	template.Index(w, r)

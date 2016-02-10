@@ -1343,6 +1343,7 @@
 <!-- Page JS -->
 <script type="text/javascript" src="/js/playsound.js"></script>
 <script type="text/javascript" src="/js/inventory/inventory.js"></script>
+
 <script>
 //http://www.wowhead.com/list=6481731/eu-pozzo-delleternit%C3%A0-oranga
 var eventLog = Array();

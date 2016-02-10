@@ -1,6 +1,7 @@
 package character
 
 import (
+	"database/sql"
 	"fmt"
 	"github.com/jmoiron/sqlx"
 	"github.com/xackery/goeq/character"
@@ -8,10 +9,10 @@ import (
 
 type CharacterOutput struct {
 	character.CharacterData
-	ClassName string `db:"class_name"`
-	GuildName string `db:"guild_name"`
-	GuildId   int    `db:"guild_id"`
-	GuildRank int    `db:"guild_rank"`
+	ClassName sql.NullString `db:"class_name"`
+	GuildName sql.NullString `db:"guild_name"`
+	GuildId   sql.NullInt64  `db:"guild_id"`
+	GuildRank sql.NullInt64  `db:"guild_rank"`
 }
 
 //Find all Characters by wildcard name
