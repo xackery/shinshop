@@ -49,6 +49,7 @@
 .item {
   width: 40px;
   height: 40px;
+  float: left;
 }
 
 /* For display only items */

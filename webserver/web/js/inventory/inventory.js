@@ -1,4 +1,12 @@
 
+$( document ).ready(function() {
+  $.extend({
+    playSound: function(){
+      return $("<embed src='"+arguments[0]+".mp3' hidden='true' autostart='true' loop='false' class='playSound'>" + "<audio autoplay='autoplay' style='display:none;' controls='controls'><source src='"+arguments[0]+".mp3' /><source src='"+arguments[0]+".ogg' /></audio>").appendTo('body');
+    }
+    });
+});
+
 function GetDetails(element) {
 	target = element;
 	if (!target) {
@@ -82,7 +90,7 @@ function LoadPlayerInventory() {
 				console.log("Found "+rest.Inventory.length);
 				for (var i = 0; i < rest.Inventory.length; i++) {
 			var curItem = rest.Inventory[i];
-			$('.slot'+curItem.Slotid).append('<div class="item" item-id="'+curItem.Itemid+'" item-name="'+curItem.Name+'" item-icon="'+curItem.Icon+'" slot-id="'+curItem.Slotid+'" data-mask="'+curItem.Slots+'" slot-name="'+$('.slot'+curItem.Slotid).attr('slot-name')+'" item-quantity="'+curItem.Charges+'" class="draggable" id="findslot-'+curItem.Slotid+'" style="background: url(\'/img/items/item_'+curItem.Icon+'.gif\')" is-bag='+((curItem.Bagslots > 0) ? 1 : 0)+' bag-slots="'+curItem.Bagslots+'"	onclick="GetDetails(this)">'+(( curItem.Charges > 1) ? '<div class="item-stack-border"><span class="item-stack-count">'+curItem.Charges+'</span></div>' : '') +'</div>');
+			$('.slot'+curItem.Slotid).append('<div class="item icon-'+curItem.Icon+'" item-id="'+curItem.Itemid+'" item-name="'+curItem.Name+'" item-icon="'+curItem.Icon+'" slot-id="'+curItem.Slotid+'" data-mask="'+curItem.Slots+'" slot-name="'+$('.slot'+curItem.Slotid).attr('slot-name')+'" item-quantity="'+curItem.Charges+'" class="draggable" id="findslot-'+curItem.Slotid+'"  is-bag='+((curItem.Bagslots > 0) ? 1 : 0)+' bag-slots="'+curItem.Bagslots+'"	onclick="GetDetails(this)">'+(( curItem.Charges > 1) ? '<div class="item-stack-border"><span class="item-stack-count">'+curItem.Charges+'</span></div>' : '') +'</div>');
 				}
 					$('.item').draggable({ 
 					revert: 'invalid',
@@ -211,7 +219,7 @@ function RebuildBundle() {
 		return; 
 	} 
 		for (var i = 0; i < bundle.length; i++) {
-			$('.bundleslots').append('<li class="list-group-item"><span class="bundleloc'+i+'"><span class="slot"> <div class="item" item-id="'+bundle[i].itemid+'" item-name="'+bundle[i].itemname+'" is-bag="'+bundle[i].isBag+'" bag-slots="'+bundle[i].bagSlots+'" item-quantity="'+bundle[i].quantity+'" slot-id="-1" item-icon="'+bundle[i].icon+'" data-mask="'+bundle.slots+'" is-clonable="1" id="findslot-'+i+'" bundle-id="'+i+'" onmouseup="GetDetails(this)" style="background: url(\'/img/items/item_'+bundle[i].icon+'.gif\')"></div></span><a class="remove-item-text" data-event-index="0" onclick="RemoveBundle('+i+')"><i class="glyphicon glyphicon-remove text-danger" aria-hidden="true"></i></a>'+bundle[i].itemname+'</span><span class="badge">'+bundle[i].itemid+'</span></li>');
+			$('.bundleslots').append('<li class="list-group-item"><span class="bundleloc'+i+'"><span class="slot"> <div class="item icon-'+bundle[i].Icon+'" item-id="'+bundle[i].Itemid+'" item-name="'+bundle[i].itemname+'" is-bag="'+bundle[i].isBag+'" bag-slots="'+bundle[i].bagSlots+'" item-quantity="'+bundle[i].Quantity+'" slot-id="-1" item-icon="'+bundle[i].Icon+'" data-mask="'+bundle.slots+'" is-clonable="1" id="findslot-'+i+'" bundle-id="'+i+'" onmouseup="GetDetails(this)" ></div></span><a class="remove-item-text" data-event-index="0" onclick="RemoveBundle('+i+')"><i class="glyphicon glyphicon-remove text-danger" aria-hidden="true"></i></a>'+bundle[i].itemname+'</span><span class="badge">'+bundle[i].Itemid+'</span></li>');
 			$('.bundleloc'+i+' div').draggable({ 
 				revert: 'invalid',
 					revertDuration: 100,
@@ -236,7 +244,7 @@ function FindItem(search, limit, offset) {
 			if (rest.Status == 1) {
 				$('.findslots li').remove();
 				for (var i = 0; i < rest.Items.length; i++) {
-					$('.findslots').append('<li class="list-group-item"><span class="findloc'+i+'"><span class="slot"> <div class="item" item-id="'+rest.Items[i].id+'" item-name="'+rest.Items[i].Name+'" is-bag="'+((rest.Items[i].bagslots > 0) ? 1 : 0)+'" item-quantity="1" bag-slots="'+rest.Items[i].bagslots+'" slot-id="-1" item-icon="'+rest.Items[i].icon+'" data-mask="'+rest.Items[i].slots+'" is-clonable="1" id="findslot-'+i+'" onmouseup="GetDetails(this)" style="background: url(\'/img/items/item_'+rest.Items[i].icon+'.gif\')"></div></span>'+rest.Items[i].Name+'</span><span class="badge">'+rest.Items[i].id+'</span></li>');
+					$('.findslots').append('<li class="list-group-item"><span class="findloc'+i+'"><span class="slot"> <div class="item icon-'+rest.Items[i].Icon+'" item-id="'+rest.Items[i].id+'" item-name="'+rest.Items[i].Name+'" is-bag="'+((rest.Items[i].bagslots > 0) ? 1 : 0)+'" item-quantity="1" bag-slots="'+rest.Items[i].bagslots+'" slot-id="-1" item-icon="'+rest.Items[i].Icon+'" data-mask="'+rest.Items[i].slots+'" is-clonable="1" id="findslot-'+i+'" onmouseup="GetDetails(this)"></div></span>'+rest.Items[i].Name+'</span><span class="badge">'+rest.Items[i].id+'</span></li>');
 					$('.findloc'+i+' div').draggable({
 					revert: 'invalid',
 						revertDuration: 100,
@@ -384,7 +392,7 @@ function DoEvent(eventLog) {
 	return $.ajax({
 			type: "POST",
 			url: eventLog.urlPath,
-			data: "itemid="+eventLog.itemid+"&slotid="+eventLog.slotid+"&charid="+$('.container').attr('charid')+"&oldslotid="+eventLog.oldslotid+"&refid="+eventLog.refid,
+			data: "itemid="+eventLog.Itemid+"&slotid="+eventLog.Slotid+"&charid="+$('.container').attr('charid')+"&oldslotid="+eventLog.Oldslotid+"&refid="+eventLog.refid,
 			success: function (data) {
 				console.log(data);
 				var rest = jQuery.parseJSON(data);
@@ -427,7 +435,7 @@ function SaveEventLog() {
 			return $.ajax({
 					type: "POST",
 					url: eventItem.urlPath,
-					data: "itemid="+eventItem.itemid+"&slotid="+eventItem.slotid+"&charid="+$('.container').attr('charid')+"&oldslotid="+eventItem.oldslotid+"&refid="+eventItem.refid+"&oldquantity="+eventItem.oldquantity+"&quantity="+eventItem.quantity,
+					data: "itemid="+eventItem.Itemid+"&slotid="+eventItem.Slotid+"&charid="+$('.container').attr('charid')+"&oldslotid="+eventItem.Oldslotid+"&refid="+eventItem.refid+"&oldquantity="+eventItem.oldquantity+"&quantity="+eventItem.Quantity,
 					success: function (data) {
 						console.log("Success "+eventItem.refid);
 						console.log(data);
@@ -505,12 +513,12 @@ function RebuildEventLog(partial) {
 				message += "Move";
 			break;
 			case 3:
-				message += "Change quantity from	"+eventLog[i].oldquantity+" to "+eventLog[i].quantity;
+				message += "Change quantity from	"+eventLog[i].oldquantity+" to "+eventLog[i].Quantity;
 			break;
 		}
-		message += ' <div class="slot"><div class="item-display" item-id="'+eventLog[i].itemid+'" style="background: url(\'/img/items/item_'+eventLog[i].icon+'.gif\'); float: left; position: relative">' + ((eventLog[i].quantity > 1) ? '<div class="item-stack-border"><span class="item-stack-count">'+eventLog[i].quantity+'</span></div>' : '') +'</div></div> '+eventLog[i].itemname+' ('+eventLog[i].itemid+')';
-		if (eventLog[i].action == 2) message += ' from '+eventLog[i].oldslotname+' (Slot '+eventLog[i].oldslotid+')';
-		if (eventLog[i].action != -1) message += ' to '+eventLog[i].slotname+' (Slot '+eventLog[i].slotid+')';
+		message += ' <div class="slot"><div class="item-display" item-id="'+eventLog[i].Itemid+'" style="background: url(\'/img/items/item_'+eventLog[i].Icon+'.gif\'); float: left; position: relative">' + ((eventLog[i].Quantity > 1) ? '<div class="item-stack-border"><span class="item-stack-count">'+eventLog[i].Quantity+'</span></div>' : '') +'</div></div> '+eventLog[i].itemname+' ('+eventLog[i].Itemid+')';
+		if (eventLog[i].action == 2) message += ' from '+eventLog[i].oldslotname+' (Slot '+eventLog[i].Oldslotid+')';
+		if (eventLog[i].action != -1) message += ' to '+eventLog[i].slotname+' (Slot '+eventLog[i].Slotid+')';
 		//message = "</span>";
 		content += message;
 		eventText += message;
@@ -735,7 +743,7 @@ $( document ).ready(function() {
 	      			var focusBundle = bundle[newItem.attr('bundle-id')];
 	      			for (var i = 0; i < focusBundle.bagData.length; i++) {
 
-	      				if (focusBundle.bagData[i].itemid != undefined) {
+	      				if (focusBundle.bagData[i].Itemid != undefined) {
 
 	      					//Create an item for the bag slot
 	      					var focusItem = focusBundle.bagData[i];
@@ -745,11 +753,11 @@ $( document ).ready(function() {
 	      						$(".slot"+bagSlots[i]+" div").remove();
 	      					}
 
-	      					$(".slot"+bagSlots[i]).append('<div class="item" item-id="'+focusItem.itemid+'" item-name="'+focusItem.itemname+'" item-quantity="'+focusItem.quantity+'" is-bag="'+focusItem.isBag+'" bag-slots="'+focusItem.bagSlots+'" item-icon="'+focusItem.icon+'" data-mask="'+focusItem.slots+'" is-clonable="1" id="findslot-'+i+'" slot-id="'+bagSlots[i]+'" slot-name="'+$("slot-"+bagSlots[i]).attr('slot-name')+'" bundle-id="'+i+'" onmouseup="GetDetails(this)" style="background: url(\'/img/items/item_'+focusItem.icon+'.gif\')">'+((focusItem.quantity > 1) ? '<div class="item-stack-border"><span class="item-stack-count">'+focusItem.quantity+'</span></div>' : '') +'</div>');
+	      					$(".slot"+bagSlots[i]).append('<div class="item icon-'+focusItem.Icon+'" item-id="'+focusItem.Itemid+'" item-name="'+focusItem.itemname+'" item-quantity="'+focusItem.Quantity+'" is-bag="'+focusItem.isBag+'" bag-slots="'+focusItem.bagSlots+'" item-icon="'+focusItem.Icon+'" data-mask="'+focusItem.slots+'" is-clonable="1" id="findslot-'+i+'" slot-id="'+bagSlots[i]+'" slot-name="'+$("slot-"+bagSlots[i]).attr('slot-name')+'" bundle-id="'+i+'" onmouseup="GetDetails(this)" style="background: url(\'/img/items/item_'+focusItem.Icon+'.gif\')">'+((focusItem.Quantity > 1) ? '<div class="item-stack-border"><span class="item-stack-count">'+focusItem.Quantity+'</span></div>' : '') +'</div>');
 	      					$(".slot"+bagSlots[i]+" div")
 
-	      					if (focusItem.quantity < 1) focusItem.quantity = 1;
-	      					AddItem(focusItem.itemid, focusItem.itemname, bagSlots[i], $(".slot"+bagSlots[i]).attr('slot-name'), focusItem.icon, focusItem.quantity);
+	      					if (focusItem.Quantity < 1) focusItem.Quantity = 1;
+	      					AddItem(focusItem.Itemid, focusItem.itemname, bagSlots[i], $(".slot"+bagSlots[i]).attr('slot-name'), focusItem.Icon, focusItem.Quantity);
 	      				}
 	      			}
 	      		}
@@ -953,12 +961,13 @@ function LoadPlayerInventory() {
 	      	console.log("Error on returned data:" + data);
 	      	return;
 	      }
+	      ClearPlayerInventory();
 	      console.log("Found "+rest.Inventory.length);
 	      for (var i = 0; i < rest.Inventory.length; i++) {
 
 			var curItem = rest.Inventory[i];
 			console.log("Adding "+curItem.Itemid)
-			$('.slot'+curItem.Slotid).append('<div class="item" item-id="'+curItem.Itemid+'" item-name="'+curItem.Name+'" item-icon="'+curItem.Icon+'" slot-id="'+curItem.Slotid+'" data-mask="'+curItem.Slots+'" slot-name="'+$('.slot'+curItem.Slotid).attr('slot-name')+'" item-quantity="'+curItem.Charges+'" class="draggable" id="findslot-'+curItem.Slotid+'" style="background: url(\'/img/items/item_'+curItem.Icon+'.gif\')" is-bag='+((curItem.Bagslots > 0) ? 1 : 0)+' bag-slots="'+curItem.Bagslots+'"  onclick="GetDetails(this)">'+(( curItem.Charges > 1) ? '<div class="item-stack-border"><span class="item-stack-count">'+curItem.Charges+'</span></div>' : '') +'</div>');
+			$('.slot'+curItem.Slotid).append('<div class="item icon-'+curItem.Icon+'" item-id="'+curItem.Itemid+'" item-name="'+curItem.Name+'" item-icon="'+curItem.Icon+'" slot-id="'+curItem.Slotid+'" data-mask="'+curItem.Slots+'" slot-name="'+$('.slot'+curItem.Slotid).attr('slot-name')+'" item-quantity="'+curItem.Charges+'" class="draggable" id="findslot-'+curItem.Slotid+'" is-bag='+((curItem.Bagslots > 0) ? 1 : 0)+' bag-slots="'+curItem.Bagslots+'"  onclick="GetDetails(this)">'+(( curItem.Charges > 1) ? '<div class="item-stack-border"><span class="item-stack-count">'+curItem.Charges+'</span></div>' : '') +'</div>');
 	      }
 
 	        $('.item').draggable({ 
@@ -1133,7 +1142,7 @@ function RebuildBundle() {
 
     for (var i = 0; i < bundle.length; i++) {
 
-    	$('.bundleslots').append('<li class="list-group-item"><span class="bundleloc'+i+'"><span class="slot"> <div class="item" item-id="'+bundle[i].itemid+'" item-name="'+bundle[i].itemname+'" is-bag="'+bundle[i].isBag+'" bag-slots="'+bundle[i].bagSlots+'" item-quantity="'+bundle[i].quantity+'" slot-id="-1" item-icon="'+bundle[i].icon+'" data-mask="'+bundle.slots+'" is-clonable="1" id="findslot-'+i+'" bundle-id="'+i+'" onmouseup="GetDetails(this)" style="background: url(\'/img/items/item_'+bundle[i].icon+'.gif\')"></div></span><a class="remove-item-text" data-event-index="0" onclick="RemoveBundle('+i+')"><i class="glyphicon glyphicon-remove text-danger" aria-hidden="true"></i></a>'+bundle[i].itemname+'</span><span class="badge">'+bundle[i].itemid+'</span></li>');
+    	$('.bundleslots').append('<li class="list-group-item"><span class="bundleloc'+i+'"><span class="slot"> <div class="item icon-'+bundle[i].Icon+'" item-id="'+bundle[i].Itemid+'" item-name="'+bundle[i].itemname+'" is-bag="'+bundle[i].isBag+'" bag-slots="'+bundle[i].bagSlots+'" item-quantity="'+bundle[i].Quantity+'" slot-id="-1" item-icon="'+bundle[i].Icon+'" data-mask="'+bundle.slots+'" is-clonable="1" id="findslot-'+i+'" bundle-id="'+i+'" onmouseup="GetDetails(this)" "></div></span><a class="remove-item-text" data-event-index="0" onclick="RemoveBundle('+i+')"><i class="glyphicon glyphicon-remove text-danger" aria-hidden="true"></i></a>'+bundle[i].itemname+'</span><span class="badge">'+bundle[i].Itemid+'</span></li>');
 
     	$('.bundleloc'+i+' div').draggable({ 
 	    	revert: 'invalid',
@@ -1167,7 +1176,7 @@ function FindItem(search, limit, offset) {
 
         for (var i = 0; i < rest.Items.length; i++) {
 
-        	$('.findslots').append('<li class="list-group-item"><span class="findloc'+i+'"><span class="slot"> <div class="item" item-id="'+rest.Items[i].id+'" item-name="'+rest.Items[i].Name+'" is-bag="'+((rest.Items[i].bagslots > 0) ? 1 : 0)+'" item-quantity="1" bag-slots="'+rest.Items[i].bagslots+'" slot-id="-1" item-icon="'+rest.Items[i].icon+'" data-mask="'+rest.Items[i].slots+'" is-clonable="1" id="findslot-'+i+'" onmouseup="GetDetails(this)" style="background: url(\'/img/items/item_'+rest.Items[i].icon+'.gif\')"></div></span>'+rest.Items[i].Name+'</span><span class="badge">'+rest.Items[i].id+'</span></li>');
+        	$('.findslots').append('<li class="list-group-item"><span class="findloc'+i+'"><span class="slot"> <div class="item icon-'+rest.Items[i].Icon+'" item-id="'+rest.Items[i].id+'" item-name="'+rest.Items[i].Name+'" is-bag="'+((rest.Items[i].bagslots > 0) ? 1 : 0)+'" item-quantity="1" bag-slots="'+rest.Items[i].bagslots+'" slot-id="-1" item-icon="'+rest.Items[i].Icon+'" data-mask="'+rest.Items[i].slots+'" is-clonable="1" id="findslot-'+i+'" onmouseup="GetDetails(this)" ></div></span>'+rest.Items[i].Name+'</span><span class="badge">'+rest.Items[i].id+'</span></li>');
 
         	$('.findloc'+i+' div').draggable({
 
@@ -1361,7 +1370,7 @@ function DoEvent(eventLog) {
 
 	    type: "POST",
 	    url: eventLog.urlPath,
-	    data: "itemid="+eventLog.itemid+"&slotid="+eventLog.slotid+"&charid="+$('.container').attr('charid')+"&oldslotid="+eventLog.oldslotid+"&refid="+eventLog.refid,
+	    data: "itemid="+eventLog.Itemid+"&slotid="+eventLog.Slotid+"&charid="+$('.container').attr('charid')+"&oldslotid="+eventLog.Oldslotid+"&refid="+eventLog.refid,
 	    success: function (data) {
 
 	      console.log(data);
@@ -1414,7 +1423,7 @@ function SaveEventLog() {
 			return $.ajax({
 			    type: "POST",
 			    url: eventItem.urlPath,
-			    data: "itemid="+eventItem.itemid+"&slotid="+eventItem.slotid+"&charid="+$('.container').attr('charid')+"&oldslotid="+eventItem.oldslotid+"&refid="+eventItem.refid+"&oldquantity="+eventItem.oldquantity+"&quantity="+eventItem.quantity,
+			    data: "itemid="+eventItem.Itemid+"&slotid="+eventItem.Slotid+"&charid="+$('.container').attr('charid')+"&oldslotid="+eventItem.Oldslotid+"&refid="+eventItem.refid+"&oldquantity="+eventItem.oldquantity+"&quantity="+eventItem.Quantity,
 			    success: function (data) {
 			      console.log("Success "+eventItem.refid);
 
@@ -1507,14 +1516,14 @@ function RebuildEventLog(partial) {
 				message += "Move";
 			break;
 			case 3:
-				message += "Change quantity from  "+eventLog[i].oldquantity+" to "+eventLog[i].quantity;
+				message += "Change quantity from  "+eventLog[i].oldquantity+" to "+eventLog[i].Quantity;
 			break;
 		}
 
-		message += ' <div class="slot"><div class="item-display" item-id="'+eventLog[i].itemid+'" style="background: url(\'/img/items/item_'+eventLog[i].icon+'.gif\'); float: left; position: relative">' + ((eventLog[i].quantity > 1) ? '<div class="item-stack-border"><span class="item-stack-count">'+eventLog[i].quantity+'</span></div>' : '') +'</div></div> '+eventLog[i].itemname+' ('+eventLog[i].itemid+')';
-		if (eventLog[i].action == 2) message += ' from '+eventLog[i].oldslotname+' (Slot '+eventLog[i].oldslotid+')';
+		message += ' <div class="slot"><div class="item-display icon-'+eventLog[i].Icon+'" item-id="'+eventLog[i].Itemid+'" style="float: left; position: relative">' + ((eventLog[i].Quantity > 1) ? '<div class="item-stack-border"><span class="item-stack-count">'+eventLog[i].Quantity+'</span></div>' : '') +'</div></div> '+eventLog[i].itemname+' ('+eventLog[i].Itemid+')';
+		if (eventLog[i].action == 2) message += ' from '+eventLog[i].oldslotname+' (Slot '+eventLog[i].Oldslotid+')';
 
-		if (eventLog[i].action != -1) message += ' to '+eventLog[i].slotname+' (Slot '+eventLog[i].slotid+')';
+		if (eventLog[i].action != -1) message += ' to '+eventLog[i].slotname+' (Slot '+eventLog[i].Slotid+')';
 		//message = "</span>";
 		content += message;
 		eventText += message;

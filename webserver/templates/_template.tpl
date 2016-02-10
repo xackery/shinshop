@@ -25,6 +25,7 @@
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
     <link rel="stylesheet" href="/css/jquery-ui.theme.min.css">
     <link rel="stylesheet" href="/css/custom.css">    
+    <link rel="stylesheet" href="/css/icon.css">
     
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">

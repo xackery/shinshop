@@ -1341,9 +1341,9 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
 <!-- Page JS -->
-<script type="text/javascript" src="/js/playsound.js"></script>
-<script type="text/javascript" src="/js/inventory/inventory.js"></script>
 
+<script type="text/javascript" src="/js/inventory/inventory.js"></script>
+<script type="text/javascript" src="/js/playsound.js"></script>
 <script>
 //http://www.wowhead.com/list=6481731/eu-pozzo-delleternit%C3%A0-oranga
 var eventLog = Array();
