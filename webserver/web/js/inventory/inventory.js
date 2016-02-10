@@ -163,7 +163,7 @@ function AddBundle() {
 		for (var i = 0; i < slots.length; i++) {
 			if ($('.slot'+slots[i]+' div').attr('item-id') != undefined) {
 				bagData.push({
-					'itemid' : $('.slot'+slots[i]+' div').attr('item-id'),
+					'Itemid' : $('.slot'+slots[i]+' div').attr('item-id'),
 					'isBag' : ($('.slot'+slots[i]+' div') == 1) ? 1 : 0,
 					'bagSlots' : $('.slot'+slots[i]+' div').attr('bag-slots'),
 					'icon' : $('.slot'+slots[i]+' div').attr('item-icon'),
@@ -179,7 +179,7 @@ function AddBundle() {
 		}
 	}
 	bundle.push({
-		'itemid' : $(target).attr('item-id'),
+		'Itemid' : $(target).attr('item-id'),
 		'isBag' : ($(target).attr('is-bag') == 1) ? 1 : 0,
 		'bagSlots' : $(target).attr('bag-slots'),
 		'icon' : $(target).attr('item-icon'),
@@ -323,11 +323,11 @@ function GetBagSlots(bagid) {
 	}
 	return slots;
 }
-function AddItem(itemid, itemname, slotid, slotname, icon, quantity) {
+function AddItem(Itemid, itemname, slotid, slotname, icon, quantity) {
 	if (quantity < 1) quantity = 1;
 	eventLog.push({
 		'action' : 1, //1 - add, -1 delete, 2 move, 3 update
-		'itemid' : itemid,
+		'Itemid' : Itemid,
 		'itemname' : itemname,
 		'slotid' : slotid,
 		'slotname' : slotname,
@@ -336,12 +336,12 @@ function AddItem(itemid, itemname, slotid, slotname, icon, quantity) {
 	});
 	RebuildEventLog();
 }
-function RemoveItem(itemid, itemname, slotid, slotname, icon, quantity) {
+function RemoveItem(Itemid, itemname, slotid, slotname, icon, quantity) {
 	if (quantity < 1) quantity = 1;
 	
 	eventLog.push({
 		'action' : -1, //1 - add, -1 delete, 2 move, 3 update
-		'itemid' : itemid,
+		'Itemid' : Itemid,
 		'itemname' : itemname,
 		'slotid' : slotid,
 		'slotname' : slotname,
@@ -350,12 +350,12 @@ function RemoveItem(itemid, itemname, slotid, slotname, icon, quantity) {
 	});
 	RebuildEventLog();
 }
-function MoveItem(itemid, itemname, slotid, slotname, icon, oldslotid, oldslotname, quantity) {
+function MoveItem(Itemid, itemname, slotid, slotname, icon, oldslotid, oldslotname, quantity) {
 	if (quantity < 1) quantity = 1;
 	
 	eventLog.push({
 		'action' : 2, //1 - add, -1 delete, 2 move, 3 update
-		'itemid' : itemid,
+		'Itemid' : Itemid,
 		'itemname' : itemname,
 		'slotid' : slotid,
 		'slotname' : slotname,
@@ -366,14 +366,14 @@ function MoveItem(itemid, itemname, slotid, slotname, icon, oldslotid, oldslotna
 	});
 	RebuildEventLog();	
 }
-function UpdateItem(itemid, itemname, slotid, slotname, icon, quantity, oldquantity) {
+function UpdateItem(Itemid, itemname, slotid, slotname, icon, quantity, oldquantity) {
 	if (oldquantity == quantity) {
 		return;
 	}
 	if (quantity < 1) quantity = 1;
 	eventLog.push({
 		'action' : 3, //1 - add, -1 delete, 2 move, 3 update
-		'itemid' : itemid,
+		'Itemid' : Itemid,
 		'itemname' : itemname,
 		'slotid' : slotid,
 		'slotname' : slotname,
@@ -391,18 +391,18 @@ function RemoveEvent(index) {
 function DoEvent(eventLog) {
 	return $.ajax({
 			type: "POST",
-			url: eventLog.urlPath,
-			data: "itemid="+eventLog.Itemid+"&slotid="+eventLog.Slotid+"&charid="+$('.container').attr('charid')+"&oldslotid="+eventLog.Oldslotid+"&refid="+eventLog.refid,
+			url: eventLog.Urlpath,
+			data: "Itemid="+eventLog.Itemid+"&slotid="+eventLog.Slotid+"&charid="+$('.container').attr('charid')+"&oldslotid="+eventLog.Oldslotid+"&refid="+eventLog.Refid,
 			success: function (data) {
 				console.log(data);
 				var rest = jQuery.parseJSON(data);
 				if (rest.Status == 1) {
-					$('.event-item-'+rest.refid+' div span .event-success').show();
-					$('.event-item-'+rest.refid+' div span').addClass('text-success');
+					$('.event-item-'+rest.Refid+' div span .event-success').show();
+					$('.event-item-'+rest.Refid+' div span').addClass('text-success');
 					console.log("Success!");
 				} else {
-					$('.event-item-'+rest.refid+' div span .event-danger').show();
-					$('.event-item-'+rest.refid+' div span').addClass('text-danger');
+					$('.event-item-'+rest.Refid+' div span .event-danger').show();
+					$('.event-item-'+rest.Refid+' div span').addClass('text-danger');
 					console.log("Failure!");
 			
 				}
@@ -420,33 +420,33 @@ function SaveEventLog() {
 
 	for (var i = 0; i < eventLog.length; i++) {
 		$('#saving-text').text('Saving...');
-		var urlPath = "/rest/inventory/";
-		if (eventLog[i].action == 1) urlPath += "add";
-		if (eventLog[i].action == 2) urlPath += "move";
-		if (eventLog[i].action == -1) urlPath += "remove";
-		if (eventLog[i].action == 3) urlPath += "update";
+		var Urlpath = "/rest/inventory/";
+		if (eventLog[i].Action == 1) Urlpath += "add";
+		if (eventLog[i].Action == 2) Urlpath += "move";
+		if (eventLog[i].Action == -1) Urlpath += "remove";
+		if (eventLog[i].Action == 3) Urlpath += "update";
 		
-		eventLog[i].refid = i;
-		eventLog[i].urlPath = urlPath;
+		eventLog[i].Refid = i;
+		eventLog[i].Urlpath = Urlpath;
 	}
 	eventLog.reduce(function (result, eventItem) {
 		return result.then(function() {
 			
 			return $.ajax({
 					type: "POST",
-					url: eventItem.urlPath,
-					data: "itemid="+eventItem.Itemid+"&slotid="+eventItem.Slotid+"&charid="+$('.container').attr('charid')+"&oldslotid="+eventItem.Oldslotid+"&refid="+eventItem.refid+"&oldquantity="+eventItem.oldquantity+"&quantity="+eventItem.Quantity,
+					url: eventItem.Urlpath,
+					data: "Itemid="+eventItem.Itemid+"&slotid="+eventItem.Slotid+"&charid="+$('.container').attr('charid')+"&oldslotid="+eventItem.Oldslotid+"&refid="+eventItem.Refid+"&oldquantity="+eventItem.oldquantity+"&quantity="+eventItem.Quantity,
 					success: function (data) {
-						console.log("Success "+eventItem.refid);
+						console.log("Success "+eventItem.Refid);
 						console.log(data);
 						var rest = jQuery.parseJSON(data);
 						if (rest.Status == 1) {
-							$('.event-item-'+rest.refid+' div span .event-success').show();
-							$('.event-item-'+rest.refid+' div span').addClass('text-success');
+							$('.event-item-'+rest.Refid+' div span .event-success').show();
+							$('.event-item-'+rest.Refid+' div span').addClass('text-success');
 							console.log("Success!");
 						} else {
-							$('.event-item-'+rest.refid+' div span .event-danger').show();
-							$('.event-item-'+rest.refid+' div span').addClass('text-danger');
+							$('.event-item-'+rest.Refid+' div span .event-danger').show();
+							$('.event-item-'+rest.Refid+' div span').addClass('text-danger');
 							console.log("Failure!");
 					
 						}
@@ -502,7 +502,7 @@ function RebuildEventLog(partial) {
 		content += '<a class="remove-item-text" data-event-index="'+i+'" onclick="RemoveEvent('+i+')"><i class="glyphicon glyphicon-remove text-danger" aria-hidden="true"></i></a>';
 		message = "";
 		
-		switch (eventLog[i].action) {
+		switch (eventLog[i].Action) {
 			case 1:
 				message += "Add";
 			break;
@@ -517,8 +517,8 @@ function RebuildEventLog(partial) {
 			break;
 		}
 		message += ' <div class="slot"><div class="item-display" item-id="'+eventLog[i].Itemid+'" style="background: url(\'/img/items/item_'+eventLog[i].Icon+'.gif\'); float: left; position: relative">' + ((eventLog[i].Quantity > 1) ? '<div class="item-stack-border"><span class="item-stack-count">'+eventLog[i].Quantity+'</span></div>' : '') +'</div></div> '+eventLog[i].itemname+' ('+eventLog[i].Itemid+')';
-		if (eventLog[i].action == 2) message += ' from '+eventLog[i].oldslotname+' (Slot '+eventLog[i].Oldslotid+')';
-		if (eventLog[i].action != -1) message += ' to '+eventLog[i].slotname+' (Slot '+eventLog[i].Slotid+')';
+		if (eventLog[i].Action == 2) message += ' from '+eventLog[i].oldslotname+' (Slot '+eventLog[i].Oldslotid+')';
+		if (eventLog[i].Action != -1) message += ' to '+eventLog[i].slotname+' (Slot '+eventLog[i].Slotid+')';
 		//message = "</span>";
 		content += message;
 		eventText += message;
@@ -1069,7 +1069,7 @@ function AddBundle() {
 			if ($('.slot'+slots[i]+' div').attr('item-id') != undefined) {
 
 				bagData.push({
-					'itemid' : $('.slot'+slots[i]+' div').attr('item-id'),
+					'Itemid' : $('.slot'+slots[i]+' div').attr('item-id'),
 					'isBag' : ($('.slot'+slots[i]+' div') == 1) ? 1 : 0,
 					'bagSlots' : $('.slot'+slots[i]+' div').attr('bag-slots'),
 					'icon' : $('.slot'+slots[i]+' div').attr('item-icon'),
@@ -1087,7 +1087,7 @@ function AddBundle() {
 	}
 
 	bundle.push({
-		'itemid' : $(target).attr('item-id'),
+		'Itemid' : $(target).attr('item-id'),
 		'isBag' : ($(target).attr('is-bag') == 1) ? 1 : 0,
 		'bagSlots' : $(target).attr('bag-slots'),
 		'icon' : $(target).attr('item-icon'),
@@ -1287,13 +1287,13 @@ function GetBagSlots(bagid) {
 	return slots;
 }
 
-function AddItem(itemid, itemname, slotid, slotname, icon, quantity) {
+function AddItem(Itemid, itemname, slotid, slotname, icon, quantity) {
 
 	if (quantity < 1) quantity = 1;
 
 	eventLog.push({
 		'action' : 1, //1 - add, -1 delete, 2 move, 3 update
-		'itemid' : itemid,
+		'Itemid' : Itemid,
 		'itemname' : itemname,
 		'slotid' : slotid,
 		'slotname' : slotname,
@@ -1303,13 +1303,13 @@ function AddItem(itemid, itemname, slotid, slotname, icon, quantity) {
 	RebuildEventLog();
 }
 
-function RemoveItem(itemid, itemname, slotid, slotname, icon, quantity) {
+function RemoveItem(Itemid, itemname, slotid, slotname, icon, quantity) {
 
 	if (quantity < 1) quantity = 1;
 	
 	eventLog.push({
 		'action' : -1, //1 - add, -1 delete, 2 move, 3 update
-		'itemid' : itemid,
+		'Itemid' : Itemid,
 		'itemname' : itemname,
 		'slotid' : slotid,
 		'slotname' : slotname,
@@ -1319,13 +1319,13 @@ function RemoveItem(itemid, itemname, slotid, slotname, icon, quantity) {
 	RebuildEventLog();
 }
 
-function MoveItem(itemid, itemname, slotid, slotname, icon, oldslotid, oldslotname, quantity) {
+function MoveItem(Itemid, itemname, slotid, slotname, icon, oldslotid, oldslotname, quantity) {
 
 	if (quantity < 1) quantity = 1;
 	
 	eventLog.push({
 		'action' : 2, //1 - add, -1 delete, 2 move, 3 update
-		'itemid' : itemid,
+		'Itemid' : Itemid,
 		'itemname' : itemname,
 		'slotid' : slotid,
 		'slotname' : slotname,
@@ -1337,7 +1337,7 @@ function MoveItem(itemid, itemname, slotid, slotname, icon, oldslotid, oldslotna
 	RebuildEventLog();	
 }
 
-function UpdateItem(itemid, itemname, slotid, slotname, icon, quantity, oldquantity) {
+function UpdateItem(Itemid, itemname, slotid, slotname, icon, quantity, oldquantity) {
 
 	if (oldquantity == quantity) {
 
@@ -1347,7 +1347,7 @@ function UpdateItem(itemid, itemname, slotid, slotname, icon, quantity, oldquant
 
 	eventLog.push({
 		'action' : 3, //1 - add, -1 delete, 2 move, 3 update
-		'itemid' : itemid,
+		'Itemid' : Itemid,
 		'itemname' : itemname,
 		'slotid' : slotid,
 		'slotname' : slotname,
@@ -1369,21 +1369,21 @@ function DoEvent(eventLog) {
 	return $.ajax({
 
 	    type: "POST",
-	    url: eventLog.urlPath,
-	    data: "itemid="+eventLog.Itemid+"&slotid="+eventLog.Slotid+"&charid="+$('.container').attr('charid')+"&oldslotid="+eventLog.Oldslotid+"&refid="+eventLog.refid,
+	    url: eventLog.Urlpath,
+	    data: "Itemid="+eventLog.Itemid+"&slotid="+eventLog.Slotid+"&charid="+$('.container').attr('charid')+"&oldslotid="+eventLog.Oldslotid+"&refid="+eventLog.Refid,
 	    success: function (data) {
 
 	      console.log(data);
 	      var rest = jQuery.parseJSON(data);
 	      if (rest.Status == 1) {
 
-	      	$('.event-item-'+rest.refid+' div span .event-success').show();
-	      	$('.event-item-'+rest.refid+' div span').addClass('text-success');
+	      	$('.event-item-'+rest.Refid+' div span .event-success').show();
+	      	$('.event-item-'+rest.Refid+' div span').addClass('text-success');
 	      	console.log("Success!");
 	      } else {
 
-	      	$('.event-item-'+rest.refid+' div span .event-danger').show();
-	      	$('.event-item-'+rest.refid+' div span').addClass('text-danger');
+	      	$('.event-item-'+rest.Refid+' div span .event-danger').show();
+	      	$('.event-item-'+rest.Refid+' div span').addClass('text-danger');
 	      	console.log("Failure!");
 	    
 	      }
@@ -1406,14 +1406,14 @@ function SaveEventLog() {
 
 		$('#saving-text').text('Saving...');
 
-		var urlPath = "/rest/inventory/";
-		if (eventLog[i].action == 1) urlPath += "add";
-		if (eventLog[i].action == 2) urlPath += "move";
-		if (eventLog[i].action == -1) urlPath += "remove";
-		if (eventLog[i].action == 3) urlPath += "update";
+		var Urlpath = "/rest/inventory/";
+		if (eventLog[i].Action == 1) Urlpath += "add";
+		if (eventLog[i].Action == 2) Urlpath += "move";
+		if (eventLog[i].Action == -1) Urlpath += "remove";
+		if (eventLog[i].Action == 3) Urlpath += "update";
 		
-		eventLog[i].refid = i;
-		eventLog[i].urlPath = urlPath;
+		eventLog[i].Refid = i;
+		eventLog[i].Urlpath = Urlpath;
 
 	}
 
@@ -1422,22 +1422,22 @@ function SaveEventLog() {
 			
 			return $.ajax({
 			    type: "POST",
-			    url: eventItem.urlPath,
-			    data: "itemid="+eventItem.Itemid+"&slotid="+eventItem.Slotid+"&charid="+$('.container').attr('charid')+"&oldslotid="+eventItem.Oldslotid+"&refid="+eventItem.refid+"&oldquantity="+eventItem.oldquantity+"&quantity="+eventItem.Quantity,
+			    url: eventItem.Urlpath,
+			    data: "Itemid="+eventItem.Itemid+"&slotid="+eventItem.Slotid+"&charid="+$('.container').attr('charid')+"&oldslotid="+eventItem.Oldslotid+"&refid="+eventItem.Refid+"&oldquantity="+eventItem.oldquantity+"&quantity="+eventItem.Quantity,
 			    success: function (data) {
-			      console.log("Success "+eventItem.refid);
+			      console.log("Success "+eventItem.Refid);
 
 			      console.log(data);
 			      var rest = jQuery.parseJSON(data);
 			      if (rest.Status == 1) {
 
-			      	$('.event-item-'+rest.refid+' div span .event-success').show();
-			      	$('.event-item-'+rest.refid+' div span').addClass('text-success');
+			      	$('.event-item-'+rest.Refid+' div span .event-success').show();
+			      	$('.event-item-'+rest.Refid+' div span').addClass('text-success');
 			      	console.log("Success!");
 			      } else {
 
-			      	$('.event-item-'+rest.refid+' div span .event-danger').show();
-			      	$('.event-item-'+rest.refid+' div span').addClass('text-danger');
+			      	$('.event-item-'+rest.Refid+' div span .event-danger').show();
+			      	$('.event-item-'+rest.Refid+' div span').addClass('text-danger');
 			      	console.log("Failure!");
 			    
 			      }
@@ -1504,7 +1504,7 @@ function RebuildEventLog(partial) {
 
 		message = "";
 		
-		switch (eventLog[i].action) {
+		switch (eventLog[i].Action) {
 
 			case 1:
 				message += "Add";
@@ -1520,10 +1520,10 @@ function RebuildEventLog(partial) {
 			break;
 		}
 
-		message += ' <div class="slot"><div class="item-display icon-'+eventLog[i].Icon+'" item-id="'+eventLog[i].Itemid+'" style="float: left; position: relative">' + ((eventLog[i].Quantity > 1) ? '<div class="item-stack-border"><span class="item-stack-count">'+eventLog[i].Quantity+'</span></div>' : '') +'</div></div> '+eventLog[i].itemname+' ('+eventLog[i].Itemid+')';
-		if (eventLog[i].action == 2) message += ' from '+eventLog[i].oldslotname+' (Slot '+eventLog[i].Oldslotid+')';
+		message += ' <div class="slot"><div class="item-display icon-'+eventLog[i].icon+'" item-id="'+eventLog[i].Itemid+'" style="float: left; position: relative">' + ((eventLog[i].Quantity > 1) ? '<div class="item-stack-border"><span class="item-stack-count">'+eventLog[i].Quantity+'</span></div>' : '') +'</div></div> '+eventLog[i].itemname+' ('+eventLog[i].Itemid+')';
+		if (eventLog[i].Action == 2) message += ' from '+eventLog[i].oldslotname+' (Slot '+eventLog[i].oldslotid+')';
 
-		if (eventLog[i].action != -1) message += ' to '+eventLog[i].slotname+' (Slot '+eventLog[i].Slotid+')';
+		if (eventLog[i].Action != -1) message += ' to '+eventLog[i].slotname+' (Slot '+eventLog[i].slotid+')';
 		//message = "</span>";
 		content += message;
 		eventText += message;
