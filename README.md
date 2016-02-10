@@ -1,2 +1,2 @@
 # shinshop
-Everquest Toolkit of DOOM
+Go based Web Server
