@@ -2,6 +2,7 @@ package webserver
 
 import (
 	//"github.com/gorilla/pat"
+	"github.com/skratchdot/open-golang/open"
 	"github.com/xackery/eqemuconfig"
 	"github.com/xackery/shinshop/database"
 	"github.com/xackery/shinshop/webserver/rest"
@@ -42,6 +43,7 @@ func Start(addr string) (err error) {
 	http.HandleFunc("/rest/inventory/update", inventory.ActionUpdate)
 	//http.Handle("/", r)
 	log.Println("Started Web Server on", addr)
+	go openBrowser(addr)
 	err = http.ListenAndServe(addr, nil)
 	return
 }
@@ -55,4 +57,8 @@ func Index(w http.ResponseWriter, r *http.Request) {
 	}
 	template.Index(w, r)
 	return
+}
+
+func openBrowser(addr string) {
+	open.Run("http://" + addr)
 }
