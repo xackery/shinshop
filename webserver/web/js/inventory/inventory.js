@@ -519,9 +519,9 @@ function RebuildEventLog(partial) {
                 message += "Change quantity from	" + eventLog[i].oldquantity + " to " + eventLog[i].Quantity;
                 break;
         }
-        message += ' <div class="slot"><div class="item-display" item-id="' + eventLog[i].Itemid + '" style="background: url(\'/img/items/item_' + eventLog[i].Icon + '.gif\'); float: left; position: relative">' + ((eventLog[i].Quantity > 1) ? '<div class="item-stack-border"><span class="item-stack-count">' + eventLog[i].Quantity + '</span></div>' : '') + '</div></div> ' + eventLog[i].itemname + ' (' + eventLog[i].Itemid + ')';
-        if (eventLog[i].Action == 2) message += ' from ' + eventLog[i].oldslotname + ' (Slot ' + eventLog[i].Oldslotid + ')';
-        if (eventLog[i].Action != -1) message += ' to ' + eventLog[i].slotname + ' (Slot ' + eventLog[i].Slotid + ')';
+        message += ' <div class="slot"><div class="item-display icon-'+eventLog[i].icon+'" item-id="' + eventLog[i].itemid + '" style="float: left; position: relative">' + ((eventLog[i].Quantity > 1) ? '<div class="item-stack-border"><span class="item-stack-count">' + eventLog[i].Quantity + '</span></div>' : '') + '</div></div> ' + eventLog[i].itemname + ' (' + eventLog[i].Itemid + ')';
+        if (eventLog[i].Action == 2) message += ' from ' + eventLog[i].oldslotname + ' (Slot ' + eventLog[i].oldslotid + ')';
+        if (eventLog[i].Action != -1) message += ' to ' + eventLog[i].slotname + ' (Slot ' + eventLog[i].slotid + ')';
         //message = "</span>";
         content += message;
         eventText += message;
