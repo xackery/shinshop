@@ -87,12 +87,10 @@ func ActionMove(db *sqlx.DB, params ActionParams) (err error) {
 }
 func ActionRemove(db *sqlx.DB, params ActionParams) (err error) {
 	result, err := db.NamedExec(`DELETE FROM inventory WHERE
-		itemid = :itemid, 
-		slotid = :slotid, 
-		charges = :quantity,
-		charid = :charid,
-		oldslotid = :oldslotid,
-		refid = :refid
+		itemid = :itemid AND
+		slotid = :slotid AND
+		charges = :quantity AND
+		charid = :charid
 		LIMIT 1
 		`, params)
 	if err != nil {
