@@ -14,9 +14,7 @@
     <div class="collapse navbar-collapse" id="nav-header">
       <ul class="nav navbar-nav">
         <li><a href="/item"><span class="glyphicon glyphicon-leaf"></span> Item</a></li>
-        <li><a href="/npc"><span class="glyphicon glyphicon-knight"></span> NPC</a></li>
         <li><a href="/character"><span class="glyphicon glyphicon-user"></span> Character</a></li>
-        <li><a href="/zone"><span class="glyphicon glyphicon-globe"></span> Zone</a></li>
         
       </ul>
       <form class="navbar-form navbar-left" action="/character/search" role="search" method="GET">
@@ -24,10 +22,7 @@
           <input type="text" class="form-control" name="q" placeholder="Search">
         </div>
         <button type="submit" class="btn btn-default">Submit</button>
-      </form>
-      <ul class="nav navbar-nav navbar-right">
-        <li><a href="#">Guest <i class="glyphicon glyphicon-off"></i></a></li>
-      </ul>
+      </form>      
     </div>
   </div>
 </nav>
