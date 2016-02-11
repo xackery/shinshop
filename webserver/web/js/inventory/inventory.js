@@ -164,7 +164,7 @@ function AddBundle() {
         for (var i = 0; i < slots.length; i++) {
             if ($('.slot' + slots[i] + ' div').attr('item-id') != undefined) {
                 bagData.push({
-                    'Itemid': $('.slot' + slots[i] + ' div').attr('item-id'),
+                    'itemid': $('.slot' + slots[i] + ' div').attr('item-id'),
                     'isBag': ($('.slot' + slots[i] + ' div') == 1) ? 1 : 0,
                     'bagSlots': $('.slot' + slots[i] + ' div').attr('bag-slots'),
                     'icon': $('.slot' + slots[i] + ' div').attr('item-icon'),
@@ -180,7 +180,7 @@ function AddBundle() {
         }
     }
     bundle.push({
-        'Itemid': $(target).attr('item-id'),
+        'itemid': $(target).attr('item-id'),
         'isBag': ($(target).attr('is-bag') == 1) ? 1 : 0,
         'bagSlots': $(target).attr('bag-slots'),
         'icon': $(target).attr('item-icon'),
@@ -327,11 +327,11 @@ function GetBagSlots(bagid) {
     }
     return slots;
 }
-function AddItem(Itemid, itemname, slotid, slotname, icon, quantity) {
+function AddItem(itemid, itemname, slotid, slotname, icon, quantity) {
     if (quantity < 1) quantity = 1;
     eventLog.push({
         'action': 1, //1 - add, -1 delete, 2 move, 3 update
-        'itemid': Itemid,
+        'itemid': itemid,
         'itemname': itemname,
         'slotid': slotid,
         'slotname': slotname,
@@ -436,6 +436,10 @@ function SaveEventLog() {
     eventLog.reduce(function (result, eventItem) {
         return result.then(function () {
 
+            if (eventItem.action == 1 || eventItem.action == -1) {
+                eventItem.oldslotid = 0;
+                eventItem.oldquantity = 0;
+            }
             return $.ajax({
                 type: "POST",
                 url: eventItem.Urlpath,
@@ -519,7 +523,9 @@ function RebuildEventLog(partial) {
                 message += "Change quantity from	" + eventLog[i].oldquantity + " to " + eventLog[i].quantity;
                 break;
         }
-        message += ' <div class="slot"><div class="item-display icon-'+eventLog[i].icon+'" item-id="' + eventLog[i].itemid + '" style="float: left; position: relative">' + ((eventLog[i].Quantity > 1) ? '<div class="item-stack-border"><span class="item-stack-count">' + eventLog[i].Quantity + '</span></div>' : '') + '</div></div> ' + eventLog[i].itemname + ' (' + eventLog[i].Itemid + ')';
+
+        console.log(eventLog[i].action)
+        message += ' <div class="slot"><div class="item-display icon-'+eventLog[i].icon+'" item-id="' + eventLog[i].itemid + '" style="float: left; position: relative">' + ((eventLog[i].quantity > 1) ? '<div class="item-stack-border"><span class="item-stack-count">' + eventLog[i].quantity + '</span></div>' : '') + '</div></div> ' + eventLog[i].itemname + ' (' + eventLog[i].itemid + ')';
         if (eventLog[i].action == 2) message += ' from ' + eventLog[i].oldslotname + ' (Slot ' + eventLog[i].oldslotid + ')';
         if (eventLog[i].action != -1) message += ' to ' + eventLog[i].slotname + ' (Slot ' + eventLog[i].slotid + ')';
         //message = "</span>";
