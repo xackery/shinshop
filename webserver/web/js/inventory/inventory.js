@@ -331,7 +331,7 @@ function AddItem(Itemid, itemname, slotid, slotname, icon, quantity) {
     if (quantity < 1) quantity = 1;
     eventLog.push({
         'action': 1, //1 - add, -1 delete, 2 move, 3 update
-        'Itemid': Itemid,
+        'itemid': Itemid,
         'itemname': itemname,
         'slotid': slotid,
         'slotname': slotname,
@@ -345,7 +345,7 @@ function RemoveItem(Itemid, itemname, slotid, slotname, icon, quantity) {
 
     eventLog.push({
         'action': -1, //1 - add, -1 delete, 2 move, 3 update
-        'Itemid': Itemid,
+        'itemid': Itemid,
         'itemname': itemname,
         'slotid': slotid,
         'slotname': slotname,
@@ -354,12 +354,12 @@ function RemoveItem(Itemid, itemname, slotid, slotname, icon, quantity) {
     });
     RebuildEventLog();
 }
-function MoveItem(Itemid, itemname, slotid, slotname, icon, oldslotid, oldslotname, quantity) {
+function MoveItem(itemid, itemname, slotid, slotname, icon, oldslotid, oldslotname, quantity) {
     if (quantity < 1) quantity = 1;
 
     eventLog.push({
         'action': 2, //1 - add, -1 delete, 2 move, 3 update
-        'Itemid': Itemid,
+        'itemid': itemid,
         'itemname': itemname,
         'slotid': slotid,
         'slotname': slotname,
@@ -370,14 +370,14 @@ function MoveItem(Itemid, itemname, slotid, slotname, icon, oldslotid, oldslotna
     });
     RebuildEventLog();
 }
-function UpdateItem(Itemid, itemname, slotid, slotname, icon, quantity, oldquantity) {
+function UpdateItem(itemid, itemname, slotid, slotname, icon, quantity, oldquantity) {
     if (oldquantity == quantity) {
         return;
     }
     if (quantity < 1) quantity = 1;
     eventLog.push({
         'action': 3, //1 - add, -1 delete, 2 move, 3 update
-        'Itemid': Itemid,
+        'itemid': itemid,
         'itemname': itemname,
         'slotid': slotid,
         'slotname': slotname,
@@ -396,11 +396,11 @@ function DoEvent(eventLog) {
     return $.ajax({
         type: "POST",
         url: eventLog.Urlpath,
-        data: "Itemid=" + eventLog.Itemid + "&slotid=" + eventLog.Slotid + "&charid=" + $('.container').attr('charid') + "&oldslotid=" + eventLog.Oldslotid + "&refid=" + eventLog.Refid,
+        data: "itemid=" + eventLog.itemid + "&slotid=" + eventLog.slotid + "&charid=" + $('.container').attr('charid') + "&oldslotid=" + eventLog.oldslotid + "&refid=" + eventLog.refid,
         success: function (data) {
             console.log(data);
             var rest = jQuery.parseJSON(data);
-            if (rest.Status == 1) {
+            if (rest.status == 1) {
                 $('.event-item-' + rest.Refid + ' div span .event-success').show();
                 $('.event-item-' + rest.Refid + ' div span').addClass('text-success');
                 console.log("Success!");
@@ -425,10 +425,10 @@ function SaveEventLog() {
     for (var i = 0; i < eventLog.length; i++) {
         $('#saving-text').text('Saving...');
         var Urlpath = "/rest/inventory/";
-        if (eventLog[i].Action == 1) Urlpath += "add";
-        if (eventLog[i].Action == 2) Urlpath += "move";
-        if (eventLog[i].Action == -1) Urlpath += "remove";
-        if (eventLog[i].Action == 3) Urlpath += "update";
+        if (eventLog[i].action == 1) Urlpath += "add";
+        if (eventLog[i].action == 2) Urlpath += "move";
+        if (eventLog[i].action == -1) Urlpath += "remove";
+        if (eventLog[i].action == 3) Urlpath += "update";
 
         eventLog[i].Refid = i;
         eventLog[i].Urlpath = Urlpath;
@@ -439,7 +439,7 @@ function SaveEventLog() {
             return $.ajax({
                 type: "POST",
                 url: eventItem.Urlpath,
-                data: "Itemid=" + eventItem.Itemid + "&slotid=" + eventItem.Slotid + "&charid=" + $('.container').attr('charid') + "&oldslotid=" + eventItem.Oldslotid + "&refid=" + eventItem.Refid + "&oldquantity=" + eventItem.oldquantity + "&quantity=" + eventItem.Quantity,
+                data: "itemid=" + eventItem.itemid + "&slotid=" + eventItem.slotid + "&charid=" + $('.container').attr('charid') + "&oldslotid=" + eventItem.oldslotid + "&refid=" + eventItem.Refid + "&oldquantity=" + eventItem.oldquantity + "&quantity=" + eventItem.quantity,
                 success: function (data) {
                     console.log("Success " + eventItem.Refid);
                     console.log(data);
@@ -505,7 +505,7 @@ function RebuildEventLog(partial) {
         content += '<a class="remove-item-text" data-event-index="' + i + '" onclick="RemoveEvent(' + i + ')"><i class="glyphicon glyphicon-remove text-danger" aria-hidden="true"></i></a>';
         var message = "";
 
-        switch (eventLog[i].Action) {
+        switch (eventLog[i].action) {
             case 1:
                 message += "Add";
                 break;
@@ -516,12 +516,12 @@ function RebuildEventLog(partial) {
                 message += "Move";
                 break;
             case 3:
-                message += "Change quantity from	" + eventLog[i].oldquantity + " to " + eventLog[i].Quantity;
+                message += "Change quantity from	" + eventLog[i].oldquantity + " to " + eventLog[i].quantity;
                 break;
         }
         message += ' <div class="slot"><div class="item-display icon-'+eventLog[i].icon+'" item-id="' + eventLog[i].itemid + '" style="float: left; position: relative">' + ((eventLog[i].Quantity > 1) ? '<div class="item-stack-border"><span class="item-stack-count">' + eventLog[i].Quantity + '</span></div>' : '') + '</div></div> ' + eventLog[i].itemname + ' (' + eventLog[i].Itemid + ')';
-        if (eventLog[i].Action == 2) message += ' from ' + eventLog[i].oldslotname + ' (Slot ' + eventLog[i].oldslotid + ')';
-        if (eventLog[i].Action != -1) message += ' to ' + eventLog[i].slotname + ' (Slot ' + eventLog[i].slotid + ')';
+        if (eventLog[i].action == 2) message += ' from ' + eventLog[i].oldslotname + ' (Slot ' + eventLog[i].oldslotid + ')';
+        if (eventLog[i].action != -1) message += ' to ' + eventLog[i].slotname + ' (Slot ' + eventLog[i].slotid + ')';
         //message = "</span>";
         content += message;
         eventText += message;

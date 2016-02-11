@@ -5,6 +5,7 @@ import (
 	"github.com/xackery/eqemuconfig"
 	"github.com/xackery/shinshop/database"
 	"github.com/xackery/shinshop/webserver/rest"
+	"github.com/xackery/shinshop/webserver/rest/inventory"
 	"github.com/xackery/shinshop/webserver/template"
 	"log"
 	"net/http"
@@ -29,6 +30,10 @@ func Start(addr string) (err error) {
 	http.HandleFunc("/item/", template.ItemIndex)
 	http.HandleFunc("/character/", template.CharacterIndex)
 	http.HandleFunc("/character/inventory/", template.CharacterInventory)
+	http.HandleFunc("/character/inventory/add", inventory.ActionAdd)
+	http.HandleFunc("/character/inventory/move", inventory.ActionMove)
+	http.HandleFunc("/character/inventory/remove", inventory.ActionRemove)
+	http.HandleFunc("/character/inventory/update", inventory.ActionUpdate)
 	http.HandleFunc("/item/editor/", template.ItemEditor)
 	http.HandleFunc("/rest/", rest.Index)
 	http.HandleFunc("/rest/item/getbyid", rest.ItemGetById)
