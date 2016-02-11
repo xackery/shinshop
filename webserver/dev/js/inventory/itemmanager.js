@@ -14,7 +14,7 @@ class ItemManager {
 			data: "q=" + search + "&limit=" + limit + "&offset=" + offset,
 			success: function (data) {
 				//console.log(data);
-				var rest = jQuery.parseJSON(data);
+				var rest = $.parseJSON(data);
 				if (rest.Status == 1) {
 					$('.findslots li').remove();
 					for (var i = 0; i < rest.Items.length; i++) {

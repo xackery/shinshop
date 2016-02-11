@@ -1,8 +1,11 @@
 import $ from 'jquery'
 import 'inventorymanager.js'
 import 'bundlemanager.js'
+import 'eventmanager.js'
+import 'itemmanager.js'
 
-$(document).ready(function () {
+
+$(document).ready(function () {	
     $.extend({
         playSound: function () {
             return $("<embed src='" + arguments[0] + ".mp3' hidden='true' autostart='true' loop='false' class='playSound'>" + "<audio autoplay='autoplay' style='display:none;' controls='controls'><source src='" + arguments[0] + ".mp3' /><source src='" + arguments[0] + ".ogg' /></audio>").appendTo('body');
@@ -17,8 +20,11 @@ var bundle;
 var isSaving = false;
 
 $(document).ready(function () {
-	InventoryManager.Rebuild();
+	
+	InventoryManager.Reload();
 	BundleManager.Load();
+	
+
 
     $('#detail-quantity-slider').slider({
         min: 1,
@@ -33,8 +39,7 @@ $(document).ready(function () {
         if ($('#save-confirm-btn').text() == "Close") {
 
             $('#save-confirm').hide();
-            RebuildPlayerInventory();
-            //	location.reload();
+           InventoryManager.Reload();
         }
     });
 
@@ -72,7 +77,6 @@ $(document).ready(function () {
                     )
                 );
         },
-
         drop: function (event, ui) {
             $.playSound('/sound/item');
             ui.draggable.css({
@@ -115,7 +119,7 @@ $(document).ready(function () {
             $(this).append(newItem);
 
 
-            if (newItem.attr('slot-id') == -1) {
+            if (newItem.attr('slot-id') == -1) {				
 
                 AddItem(newItem.attr("item-id"), newItem.attr("item-name"), $(this).attr("slot-id"), $(this).attr('slot-name'), newItem.attr('item-icon'), newItem.attr("item-quantity"));
 

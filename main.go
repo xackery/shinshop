@@ -1,9 +1,10 @@
 package main
 
 import (
-	"github.com/xackery/shinshop/webserver"
 	"log"
 	"os"
+
+	"github.com/xackery/shinshop/webserver"
 )
 
 func main() {

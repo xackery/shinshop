@@ -1,4 +1,4 @@
-class CookieManager {
+export default class CookieManager {
 	//Sets a cookie
 	static Set(cname, cvalue, exdays) {
 		var d = new Date();

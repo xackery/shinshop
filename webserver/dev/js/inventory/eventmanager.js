@@ -17,7 +17,7 @@ class EventManager {
 	}
 	
 	
-function RemoveItem(Itemid, itemname, slotid, slotname, icon, quantity) {
+static RemoveItem(Itemid, itemname, slotid, slotname, icon, quantity) {
     if (quantity < 1) quantity = 1;
 
     eventLog.push({
@@ -31,7 +31,7 @@ function RemoveItem(Itemid, itemname, slotid, slotname, icon, quantity) {
     });
     RebuildEventLog();
 }
-function MoveItem(Itemid, itemname, slotid, slotname, icon, oldslotid, oldslotname, quantity) {
+static MoveItem(Itemid, itemname, slotid, slotname, icon, oldslotid, oldslotname, quantity) {
     if (quantity < 1) quantity = 1;
 
     eventLog.push({
@@ -47,7 +47,7 @@ function MoveItem(Itemid, itemname, slotid, slotname, icon, oldslotid, oldslotna
     });
     RebuildEventLog();
 }
-function UpdateItem(Itemid, itemname, slotid, slotname, icon, quantity, oldquantity) {
+static UpdateItem(Itemid, itemname, slotid, slotname, icon, quantity, oldquantity) {
     if (oldquantity == quantity) {
         return;
     }
@@ -64,13 +64,13 @@ function UpdateItem(Itemid, itemname, slotid, slotname, icon, quantity, oldquant
     });
     RebuildEventLog();
 }
-function RemoveEvent(index) {
+static RemoveEvent(index) {
     eventLog.splice(index, 1);
     RebuildEventLog();
 }
 
 
-function DoEvent(eventLog) {
+static DoEvent(eventLog) {
     return $.ajax({
         type: "POST",
         url: eventLog.Urlpath,
@@ -95,7 +95,7 @@ function DoEvent(eventLog) {
     });
 }
 // Save All Changes pending on event log
-function SaveEventLog() {
+static SaveEventLog() {
     console.log(isSaving);
     if (isSaving) return;
     isSaving = true;
@@ -154,13 +154,13 @@ function SaveEventLog() {
 
         });
 }
-function FlushEventLog(partial) {
+static FlushEventLog(partial) {
 
     eventLog = Array();
     RebuildEventLog(partial);
 }
 
-function RebuildEventLog(partial) {
+static RebuildEventLog(partial) {
     $('#list-changes li').remove();
     if (!partial) $('#event-progress li').remove();
     if (eventLog.length == 0) {

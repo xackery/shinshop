@@ -1,8 +1,9 @@
 import $ from 'jquery';
-import 'bundlemanager.js';
+import BundleManager from 'bundlemanager.js';
+import InventoryManager from 'inventorymanager.js';
 
 //This represents items that can be packed/unpacked as a bundle
-class Bundle {
+export class Bundle {
 	constructor(itemid = 0, isbag = 0, bagslots = 0, icon = 0, quantity = 0, slots = 0, itemname = 0, bagdata = Array()) {
 		this.Itemid = itemid;
 		this.Isbag = isbag;
@@ -18,8 +19,9 @@ class Bundle {
 		if (target == undefined) return;
 		console.log(this);
 		
+		
 		if ($(target).attr('is-bag')) {
-			this.Slots = GetBagSlots($(target).attr('slot-id'));
+			this.Slots = InventoryManager.GetBagSlots($(target).attr('slot-id'));
 			for (var i = 0; i < this.Slots.length; i++) {
 				if ($('.slot' + this.Slots[i] + ' div').attr('item-id') != undefined) {
 					this.Bagdata.push(new Bundle($('.slot' + this.Slots[i] + ' div').attr('item-id'), //itemid
@@ -48,7 +50,7 @@ class Bundle {
 		console.log(this);
 		//$.playSound('/sound/drink');
 		
-		BundleManager.Add(this);
+		BundleManager.Add(this);		
 		BundleManager.Save();
 	}
 }
