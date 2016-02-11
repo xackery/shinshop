@@ -237,8 +237,8 @@ function FindItem(search, limit, offset) {
     search.trim();
     $.ajax({
         type: "POST",
-        url: "/rest/item/find_all_by_name",
-        data: "q=" + search + "&limit=" + limit + "&offset=" + offset,
+        url: "/rest/item/searchbyname",
+        data: "name=" + search + "&limit=" + limit + "&offset=" + offset,
         success: function (data) {
             //console.log(data);
             var rest = jQuery.parseJSON(data);
