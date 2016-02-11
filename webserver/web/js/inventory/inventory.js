@@ -245,7 +245,10 @@ function FindItem(search, limit, offset) {
             if (rest.Status == 1) {
                 $('.findslots li').remove();
                 for (var i = 0; i < rest.Items.length; i++) {
-                    $('.findslots').append('<li class="list-group-item"><span class="findloc' + i + '"><span class="slot"> <div class="item icon-' + rest.Items[i].Icon + '" item-id="' + rest.Items[i].id + '" item-name="' + rest.Items[i].Name + '" is-bag="' + ((rest.Items[i].bagslots > 0) ? 1 : 0) + '" item-quantity="1" bag-slots="' + rest.Items[i].bagslots + '" slot-id="-1" item-icon="' + rest.Items[i].Icon + '" data-mask="' + rest.Items[i].slots + '" is-clonable="1" id="findslot-' + i + '" onmouseup="GetItemDetails(this)"></div></span>' + rest.Items[i].Name + '</span><span class="badge">' + rest.Items[i].id + '</span></li>');
+                    var curItem = rest.Items[i];
+                    console.log(curItem.Slots)
+
+                    $('.findslots').append('<li class="list-group-item"><span class="findloc' + i + '"><span class="slot"> <div class="item icon-' + curItem.Icon + '" item-id="' + curItem.Id + '" item-name="' + curItem.Name + '" is-bag="' + ((curItem.Bagslots > 0) ? 1 : 0) + '" item-quantity="1" bag-slots="' + curItem.Bagslots + '" slot-id="-1" item-icon="' + curItem.Icon + '" data-mask="' + curItem.Slots + '" is-clonable="1" id="findslot-' + i + '" onmouseup="GetItemDetails(this)"></div></span>' + curItem.Name + '</span><span class="badge">' + curItem.Id + '</span></li>');
                     $('.findloc' + i + ' div').draggable({
                         revert: 'invalid',
                         revertDuration: 100,
