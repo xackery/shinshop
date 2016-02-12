@@ -4,7 +4,11 @@ import (
 	"encoding/csv"
 	"encoding/json"
 	"fmt"
+	"github.com/xackery/eqemuconfig"
+	"github.com/xackery/shinshop/database"
+	"github.com/xackery/shinshop/database/spawn"
 	"io/ioutil"
+
 	"log"
 	"net/http"
 	"strconv"
@@ -18,12 +22,20 @@ type Line struct {
 	Y2 float64
 }
 
+type Mob struct {
+	X        float64
+	Y        float64
+	Z        float64
+	Pathgrid int
+}
+
 func MapGetByShortname(w http.ResponseWriter, r *http.Request) {
 	var err error
 
 	type Index struct {
 		*Site
 		Lines []Line
+		Mobs  []Mob
 	}
 
 	resp := Index{
@@ -76,6 +88,7 @@ func MapGetByShortname(w http.ResponseWriter, r *http.Request) {
 			line.Y1, err = strconv.ParseFloat(strings.TrimSpace(record[1]), 64)
 			line.X2, err = strconv.ParseFloat(strings.TrimSpace(record[3]), 64)
 			line.Y2, err = strconv.ParseFloat(strings.TrimSpace(record[4]), 64)
+
 			line.X1 += 2000
 			line.Y1 += 2000
 			line.X2 += 2000
@@ -90,6 +103,39 @@ func MapGetByShortname(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
+	config, err := eqemuconfig.GetConfig()
+	if err != nil {
+		log.Println("Error getting config", err.Error())
+		return
+	}
+
+	db, err := database.Connect(config)
+	if err != nil {
+		log.Println("Error connecting to DB:", err.Error())
+		//TODO: exit properly
+		return
+	}
+
+	npcs, err := spawn.GetSpawnsByZone(db, name)
+	if err != nil {
+		log.Println("Error getting npcs:", err.Error())
+	}
+
+	for _, npc := range npcs {
+		mob := Mob{
+			X:        -npc.X,
+			Y:        -npc.Y,
+			Pathgrid: npc.Pathgrid,
+		}
+		mob.X += 2000
+		mob.Y += 2000
+		mob.X /= 5
+		mob.Y /= 5
+		resp.Mobs = append(resp.Mobs, mob)
+	}
+
+	resp.Status = 1
+	resp.Message = "Here's the map"
 	err = json.NewEncoder(w).Encode(resp)
 	if err != nil {
 		log.Println("Error requesting RestIndex:", err.Error())
