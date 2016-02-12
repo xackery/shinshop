@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"github.com/xackery/eqemuconfig"
 	"github.com/xackery/shinshop/database"
+	"github.com/xackery/shinshop/database/grid"
 	"github.com/xackery/shinshop/database/spawn"
 	"io/ioutil"
 
@@ -29,6 +30,18 @@ type Mob struct {
 	Pathgrid int
 }
 
+type Grid struct {
+	Index   int
+	Entries []GridEntry
+}
+
+type GridEntry struct {
+	X     float64
+	Y     float64
+	Z     float64
+	Pause int
+}
+
 func MapGetByShortname(w http.ResponseWriter, r *http.Request) {
 	var err error
 
@@ -36,6 +49,7 @@ func MapGetByShortname(w http.ResponseWriter, r *http.Request) {
 		*Site
 		Lines []Line
 		Mobs  []Mob
+		Grids []Grid
 	}
 
 	resp := Index{
@@ -133,6 +147,41 @@ func MapGetByShortname(w http.ResponseWriter, r *http.Request) {
 		mob.Y /= 5
 		resp.Mobs = append(resp.Mobs, mob)
 	}
+
+	grids, err := grid.GetGridsByZone(db, name)
+	if err != nil {
+		log.Println("Error getting grids:", err.Error())
+	}
+
+	lastIndex := 0
+	gridPack := Grid{}
+
+	for _, grid := range grids {
+		if lastIndex != grid.Gridid {
+			resp.Grids = append(resp.Grids, gridPack)
+			lastIndex = grid.Gridid
+			gridPack = Grid{}
+			gridPack.Index = grid.Gridid
+		}
+
+		newEntry := GridEntry{
+			X:     -grid.X,
+			Y:     -grid.Y,
+			Z:     grid.Z,
+			Pause: grid.Pause,
+		}
+		newEntry.X += 2000
+		newEntry.Y += 2000
+		newEntry.X /= 5
+		newEntry.Y /= 5
+
+		gridPack.Entries = append(gridPack.Entries, newEntry)
+	}
+	if len(grids) > 0 {
+		resp.Grids = append(resp.Grids, gridPack)
+	}
+
+	log.Println(resp.Grids)
 
 	resp.Status = 1
 	resp.Message = "Here's the map"

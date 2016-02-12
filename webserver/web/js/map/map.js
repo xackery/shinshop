@@ -7,7 +7,7 @@ $('#svgintro').svg({
 
 function doPathing() {
 
-	window.setTimeout(function() {
+/*	window.setTimeout(function() {
 
 		for (var i = 0; i < mobs.length; i++) {
 			var curMob = mobs[i];
@@ -30,7 +30,7 @@ function doPathing() {
 			//return
 		}
 	}, 2000)
-	
+	*/
 	//if (!mob.gridIndex) {
 	//	mob.gridIndex = 0;
 	//}
@@ -46,12 +46,6 @@ var mobs;
 
 function drawIntro(svg) {
 	
-    var myrect = svg.rect(25, 25, 150, '25%', 10, 10, 
-    {fill: 'none', stroke: 'blue', strokeWidth: 3, 
-    transform: 'rotate(0, 100, 75)'}); 
-$(myrect).animate({svgWidth: 200, svgHeight: '50%', 
-    svgStrokeWidth: '+=7', svgStroke: 'aqua'}, 2000);
-   return;
  //  svg.line(g, 108.200000, 485.800000, 108.200000, 466.000000);
 $.ajax({
         type: "POST",
