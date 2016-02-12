@@ -51,6 +51,7 @@ func LoadTemplates() (err error) {
 		"index/index",
 		"item/editor",
 		"character/inventory",
+		"map/editor",
 	}
 
 	for _, path := range paths {
