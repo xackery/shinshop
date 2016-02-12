@@ -9,10 +9,10 @@
 				</ul>
 			</div>
 		</div>
-		<div id="svgintro" width="2000px" height="2000px"></div>
+		<div id="svg" width="2000px" height="2000px"></div>
 		
 	</div>
 </div>
-<link rel="stylesheet" type="text/css" href="/css/map/jquery.svg.css"> 
-<script type="text/javascript" src="/js/map/jquery.svg.js"></script>
+<!-- link rel="stylesheet" type="text/css" href="/css/map/jquery.svg.css" --> 
+<script type="text/javascript" src="/js/map/snap.svg.js"></script>
 <script type="text/javascript" src="/js/map/map.js"></script>

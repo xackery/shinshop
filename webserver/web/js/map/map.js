@@ -1,14 +1,10 @@
-$('#svgintro').svg({
-	onLoad: drawIntro,
-});
-
-
+drawIntro();
 
 
 function doPathing() {
 
-/*	window.setTimeout(function() {
-
+	window.setTimeout(function() {
+		//for (var i = 0; i < 1; i++) {
 		for (var i = 0; i < mobs.length; i++) {
 			var curMob = mobs[i];
 			if (!curMob) continue;
@@ -16,21 +12,26 @@ function doPathing() {
 			if (!grids[curMob.Pathgrid]) continue;
 			if (!curMob.circle) continue;
 			if (!curMob.Index) {
-				curMob.Index = -1;
+				curMob.Index = 0;
 			}
 			curMob.Index++
+			if (!grids[curMob.Pathgrid].Entries[curMob.Index]) {
+				console.log(curMob.Pathgrid + "has no index on "+ curMob.Index);
+				curMob.Index = 0;
+				continue;
+			}
+			
 			var gridEntry = grids[curMob.Pathgrid].Entries[curMob.Index];
-			console.log(curMob.circle);
+			console.log("Moving "+curMob.circle+" to "+gridEntry.X+", "+gridEntry.Y)
+			//console.log(curMob.circle);
 
-			$(curMob.circle).animate({svgCX: gridEntry.X, svgCY: gridEntry.Y}, 5000);
+			curMob.circle.animate({cx: gridEntry.X, cy: gridEntry.Y}, 5000);
 			//$(curMob.circle).animate({svgR: 100}, 2000);
 			//mob.circle.
-			console.log("Moving mob to"+gridEntry.X+", "+gridEntry.Y)
 			//doPathing();
-			//return
 		}
 	}, 2000)
-	*/
+	
 	//if (!mob.gridIndex) {
 	//	mob.gridIndex = 0;
 	//}
@@ -40,12 +41,19 @@ function doPathing() {
 		//console.log("Mob update:" + mob)
 	//}, 1000);
 }
-
 var grids;
 var mobs;
 
+var s = Snap(2000, 2000);
+
 function drawIntro(svg) {
-	
+	doPathing()
+	//s = Snap(2000, 2000);
+	//s.circle(300, 300, 100);
+	//s.line(500,500,300,100).attr({strokeWidth:1, stroke:"green"});
+	//var cir = s.circle(300, 300, 2).attr({strokeWidth: 1, stroke:"red", fill:"maroon"});
+	//cir.animate({cx: 445.5260009765625, cy: 301.7739990234375}, 5000);
+	//return;
  //  svg.line(g, 108.200000, 485.800000, 108.200000, 466.000000);
 $.ajax({
         type: "POST",
@@ -62,25 +70,25 @@ $.ajax({
                 	grids = rest.Grids;
                 }
                 if (rest.Lines.length > 0) {
-                	svg.clear(g);
-                	 var g = svg.group({stroke: 'green', strokeWidth: 1}); 
+                	s.clear();
+                	// var g = svg.group({stroke: 'green', strokeWidth: 1}); 
                 	for (var i = 0; i < rest.Lines.length; i++ ) {
                 		var curLine = rest.Lines[i];
-                		svg.line(g, curLine.X1, curLine.Y1, curLine.X2, curLine.Y2);
+                		s.line(curLine.X1, curLine.Y1, curLine.X2, curLine.Y2).attr({strokeWidth:1, stroke:"green"});
                 	}
-                	$("svg").attr("height", "1000");
                 }
 
                 if (rest.Mobs.length > 0) {
                 	mobs = rest.Mobs;
                 	console.log("Got "+ mobs.length + " mobs");
                 	for (var i = 0; i < mobs.length; i++) {                		
-                		mobs[i].circle = svg.circle(mobs[i].X, mobs[i].Y, 2, {fill: 'maroon', stroke: 'red', strokeWidth: 1})
+                		mobs[i].circle = s.circle(mobs[i].X, mobs[i].Y, 2).attr({fill: 'maroon', stroke: 'red', strokeWidth: 1});
                 		if (mobs[i].Pathgrid > 0) {
-                			doPathing(mobs[i]);
+                			//doPathing(mobs[i]);
                 		}
                 	}
                 }
+                
 
 
             } else {
