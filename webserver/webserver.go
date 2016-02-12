@@ -32,6 +32,8 @@ func Start(addr string) (err error) {
 	http.HandleFunc("/character/", template.CharacterIndex)
 	http.HandleFunc("/character/inventory/", template.CharacterInventory)
 
+	http.HandleFunc("/map/editor/", template.MapEditor)
+
 	http.HandleFunc("/item/editor/", template.ItemEditor)
 	http.HandleFunc("/rest/", rest.Index)
 	http.HandleFunc("/rest/item/getbyid", rest.ItemGetById)
@@ -41,6 +43,9 @@ func Start(addr string) (err error) {
 	http.HandleFunc("/rest/inventory/move", inventory.ActionMove)
 	http.HandleFunc("/rest/inventory/remove", inventory.ActionRemove)
 	http.HandleFunc("/rest/inventory/update", inventory.ActionUpdate)
+
+	http.HandleFunc("/rest/map/getbyshortname/", rest.MapGetByShortname)
+
 	//http.Handle("/", r)
 	log.Println("Started Web Server on", addr)
 	go openBrowser(addr)
@@ -60,5 +65,5 @@ func Index(w http.ResponseWriter, r *http.Request) {
 }
 
 func openBrowser(addr string) {
-	open.Run("http://" + addr)
+	open.Run("http://" + addr + "/map/editor/")
 }
