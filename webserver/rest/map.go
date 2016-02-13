@@ -173,8 +173,8 @@ func MapGetByShortname(w http.ResponseWriter, r *http.Request) {
 		}
 		//newEntry.X += 2000
 		//newEntry.Y += 2000
-		newEntry.X /= 5
-		newEntry.Y /= 5
+		newEntry.X /= 50
+		newEntry.Y /= 50
 
 		gridPack.Entries = append(gridPack.Entries, newEntry)
 	}

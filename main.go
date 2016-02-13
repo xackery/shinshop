@@ -1,15 +1,14 @@
 package main
 
 import (
+	"github.com/xackery/shinshop/webserver"
 	"log"
 	"os"
-
-	"github.com/xackery/shinshop/webserver"
 )
 
 func main() {
 	log.Println("Initializing...")
-	err := webserver.Start("localhost:12345")
+	err := webserver.Start("127.0.0.1:12345")
 	if err != nil {
 		log.Println("Error with webserver:", err.Error())
 		os.Exit(1)

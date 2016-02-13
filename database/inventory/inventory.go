@@ -26,7 +26,9 @@ type ActionParams struct {
 func GetByCharacterId(db *sqlx.DB, id string) (items []*InventoryOutput, err error) {
 	//items = &[]InventoryOutput{}
 
-	rows, err := db.Queryx(`SELECT * FROM inventory i 
+	rows, err := db.Queryx(`SELECT i.slotid, items.icon, i.itemid, items.Name, items.slots, i.charges, 
+		items.bagslots
+		FROM inventory i 
 		JOIN items ON (i.itemid = items.id) 
 		WHERE i.charid = ? ORDER BY i.slotid ASC`, id)
 	if err != nil {

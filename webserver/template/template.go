@@ -5,7 +5,7 @@ import (
 	"log"
 	"net/http"
 	//"os"
-	//"io/ioutil"
+	"io/ioutil"
 )
 
 var isTemplateLoaded = false
@@ -23,8 +23,8 @@ func LoadTemplates() (err error) {
 	log.Println("Loading templates")
 	var bData []byte
 	//First do _template
-	bData, err = Asset("templates/_template.tpl")
-	//bData, err = ioutil.ReadFile("webserver/templates/_template.tpl")
+	//bData, err = Asset("templates/_template.tpl")
+	bData, err = ioutil.ReadFile("webserver/templates/_template.tpl")
 	if err != nil {
 		return
 	}
@@ -35,8 +35,8 @@ func LoadTemplates() (err error) {
 		return
 	}
 
-	bData, err = Asset("templates/_header.tpl")
-	//bData, err = ioutil.ReadFile("webserver/templates/_header.tpl")
+	//bData, err = Asset("templates/_header.tpl")
+	bData, err = ioutil.ReadFile("webserver/templates/_header.tpl")
 	if err != nil {
 		return
 	}
@@ -60,8 +60,8 @@ func LoadTemplates() (err error) {
 		if err != nil {
 			return
 		}
-		//bData, err = ioutil.ReadFile("webserver/templates/" + path + ".tpl")
-		bData, err = Asset("templates/" + path + ".tpl")
+		bData, err = ioutil.ReadFile("webserver/templates/" + path + ".tpl")
+		//bData, err = Asset("templates/" + path + ".tpl")
 		if err != nil {
 			return
 		}
@@ -103,8 +103,8 @@ func Index(w http.ResponseWriter, r *http.Request) {
 
 	if r.URL.Path != "/" {
 		log.Println("Request to", r.URL.Path)
-		//http.FileServer(http.Dir("webserver/web")).ServeHTTP(w, r)
-		http.FileServer(assetFS()).ServeHTTP(w, r)
+		http.FileServer(http.Dir("webserver/web")).ServeHTTP(w, r)
+		//http.FileServer(assetFS()).ServeHTTP(w, r)
 		return
 	}
 

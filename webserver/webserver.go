@@ -57,9 +57,8 @@ func Start(addr string) (err error) {
 
 func Index(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/" {
-		//log.Println("Request to", r.URL.Path)
-		http.FileServer(assetFS()).ServeHTTP(w, r)
-		//http.FileServer(http.Dir("webserver/web/")).ServeHTTP(w, r)
+		//http.FileServer(assetFS()).ServeHTTP(w, r)
+		http.FileServer(http.Dir("webserver/web/")).ServeHTTP(w, r)
 		return
 	}
 	template.Index(w, r)

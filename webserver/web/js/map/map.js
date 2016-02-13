@@ -11,13 +11,15 @@ function doPathing() {
 			if (!curMob.Pathgrid) continue;
 			if (!grids[curMob.Pathgrid]) continue;
 			if (!curMob.circle) continue;
-			if (!curMob.Index) {
-				curMob.Index = 0;
+			if (curMob.Reverse) {
+				curMob.Index--;
+			} else {
+				curMob.Index++;
 			}
-			curMob.Index++
+			
 			if (!grids[curMob.Pathgrid].Entries[curMob.Index]) {
 				console.log(curMob.Pathgrid + "has no index on "+ curMob.Index);
-				curMob.Index = 0;
+				curMob.Reverse = !curMob.Reverse;
 				continue;
 			}
 			
@@ -51,7 +53,7 @@ var mobs;
 var s = Snap(2000, 2000);
 
 function drawIntro(svg) {
-	//doPathing()
+	doPathing()
 //	s = Snap(2000, 2000);
 	//s.circle(300, 300, 100);
 	//s.line(500,500,300,100).attr({strokeWidth:1, stroke:"green"});
@@ -65,7 +67,6 @@ $.ajax({
         url: "/rest/map/getbyshortname/",
         data: "name="+name,
         success: function (data) {
-        	
             var rest = jQuery.parseJSON(data);
             console.log(rest);
             if (rest.Status == 1) {
@@ -87,11 +88,14 @@ $.ajax({
                 	mobs = rest.Mobs;
                 	console.log("Got "+ mobs.length + " mobs");
                 	for (var i = 0; i < mobs.length; i++) {                		
+                		mobs[i].Index = 0;
+                		mobs[i].Reverse = false;
                 		mobs[i].circle = s.circle(mobs[i].X, mobs[i].Y, 2).attr({fill: 'maroon', stroke: 'red', strokeWidth: 1});
                 		if (mobs[i].Pathgrid > 0) {
                 			//doPathing(mobs[i]);
                 		}
                 	}
+
                 }
                 
 
@@ -104,6 +108,4 @@ $.ajax({
             console.log("ajax related error occured");
         }
     });
-
-
 }
