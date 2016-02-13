@@ -25,11 +25,13 @@ func Start(addr string) (err error) {
 		return
 	}
 
+	template.LoadTemplates()
 	//r := pat.New()
 
 	http.HandleFunc("/", Index)
 	http.HandleFunc("/item/", template.ItemIndex)
-	http.HandleFunc("/character/", template.CharacterIndex)
+	http.HandleFunc("/character/", template.CharacterSearch)
+	http.HandleFunc("/character/search/", template.CharacterSearch)
 	http.HandleFunc("/character/inventory/", template.CharacterInventory)
 
 	http.HandleFunc("/map/editor/", template.MapEditor)
@@ -56,8 +58,8 @@ func Start(addr string) (err error) {
 func Index(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/" {
 		//log.Println("Request to", r.URL.Path)
-		//http.FileServer(assetFS()).ServeHTTP(w, r)
-		http.FileServer(http.Dir("webserver/web/")).ServeHTTP(w, r)
+		http.FileServer(assetFS()).ServeHTTP(w, r)
+		//http.FileServer(http.Dir("webserver/web/")).ServeHTTP(w, r)
 		return
 	}
 	template.Index(w, r)
@@ -65,5 +67,5 @@ func Index(w http.ResponseWriter, r *http.Request) {
 }
 
 func openBrowser(addr string) {
-	open.Run("http://" + addr + "/map/editor/")
+	open.Run("http://" + addr + "/character/?name=s")
 }

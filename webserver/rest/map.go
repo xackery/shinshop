@@ -8,8 +8,7 @@ import (
 	"github.com/xackery/shinshop/database"
 	"github.com/xackery/shinshop/database/grid"
 	"github.com/xackery/shinshop/database/spawn"
-	"io/ioutil"
-
+	//"io/ioutil"
 	"log"
 	"net/http"
 	"strconv"
@@ -75,7 +74,9 @@ func MapGetByShortname(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	bMap, err := ioutil.ReadFile(fmt.Sprintf("webserver/rest/map/%s_1.txt", name))
+	//bMap, err := ioutil.ReadFile(fmt.Sprintf("webserver/rest/map/%s_1.txt", name))
+
+	bMap, err := Asset(fmt.Sprintf("rest/map/%s_1.txt", name))
 	if err != nil {
 		resp.Message = "Error finding map: " + err.Error()
 		err = json.NewEncoder(w).Encode(resp)
@@ -181,7 +182,7 @@ func MapGetByShortname(w http.ResponseWriter, r *http.Request) {
 		resp.Grids = append(resp.Grids, gridPack)
 	}
 
-	log.Println(resp.Grids)
+	//log.Println(resp.Grids)
 
 	resp.Status = 1
 	resp.Message = "Here's the map"
