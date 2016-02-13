@@ -71,9 +71,9 @@ func LoadTemplates() (err error) {
 		}
 
 		if isProduction {
-			bData, err = ioutil.ReadFile("webserver/templates/" + path + ".tpl")
-		} else {
 			bData, err = Asset("templates/" + path + ".tpl")
+		} else {
+			bData, err = ioutil.ReadFile("webserver/templates/" + path + ".tpl")
 		}
 		if err != nil {
 			return
@@ -117,9 +117,9 @@ func Index(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/" {
 		log.Println("Request to", r.URL.Path)
 		if isProduction {
-			http.FileServer(http.Dir("webserver/web")).ServeHTTP(w, r)
-		} else {
 			http.FileServer(assetFS()).ServeHTTP(w, r)
+		} else {
+			http.FileServer(http.Dir("webserver/web")).ServeHTTP(w, r)
 		}
 		return
 	}
