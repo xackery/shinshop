@@ -170,8 +170,8 @@ func MapGetByShortname(w http.ResponseWriter, r *http.Request) {
 			Z:     grid.Z,
 			Pause: grid.Pause,
 		}
-		newEntry.X += 2000
-		newEntry.Y += 2000
+		//newEntry.X += 2000
+		//newEntry.Y += 2000
 		newEntry.X /= 5
 		newEntry.Y /= 5
 

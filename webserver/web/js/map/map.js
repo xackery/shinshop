@@ -22,15 +22,19 @@ function doPathing() {
 			}
 			
 			var gridEntry = grids[curMob.Pathgrid].Entries[curMob.Index];
-			console.log("Moving "+curMob.circle+" to "+gridEntry.X+", "+gridEntry.Y)
+			var newX = parseFloat(curMob.circle.attr("cx")) + parseFloat(gridEntry.X);
+			var newY = parseFloat(curMob.circle.attr("cy")) + parseFloat(gridEntry.Y);
+			
+			console.log("Moving "+curMob.circle+" to grid "+curMob.Index+" loc "+newX+", "+newY);
 			//console.log(curMob.circle);
 
-			curMob.circle.animate({cx: gridEntry.X, cy: gridEntry.Y}, 5000);
+			curMob.circle.animate({cx: newX, cy: newY}, 2000);
 			//$(curMob.circle).animate({svgR: 100}, 2000);
 			//mob.circle.
 			//doPathing();
 		}
-	}, 2000)
+		doPathing();
+	}, 5000)
 	
 	//if (!mob.gridIndex) {
 	//	mob.gridIndex = 0;
@@ -47,20 +51,21 @@ var mobs;
 var s = Snap(2000, 2000);
 
 function drawIntro(svg) {
-	doPathing()
-	//s = Snap(2000, 2000);
+	//doPathing()
+//	s = Snap(2000, 2000);
 	//s.circle(300, 300, 100);
 	//s.line(500,500,300,100).attr({strokeWidth:1, stroke:"green"});
-	//var cir = s.circle(300, 300, 2).attr({strokeWidth: 1, stroke:"red", fill:"maroon"});
+//	var cir = s.circle(300, 300, 2).attr({strokeWidth: 1, stroke:"red", fill:"maroon"});
+//	console.log((parseFloat(cir.attr("cx"))+parseFloat(100)))
 	//cir.animate({cx: 445.5260009765625, cy: 301.7739990234375}, 5000);
-	//return;
+//	return;
  //  svg.line(g, 108.200000, 485.800000, 108.200000, 466.000000);
 $.ajax({
         type: "POST",
         url: "/rest/map/getbyshortname/",
         data: "name=kael",
         success: function (data) {
-
+        	
             var rest = jQuery.parseJSON(data);
             console.log(rest);
             if (rest.Status == 1) {
