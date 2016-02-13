@@ -1,0 +1,6 @@
+P 9.8705, 880.4279, -0.2914,  0, 240, 0,  2,  ZI_and_SuccorPoint
+P -2.0180, 298.2274, 601.7586,  240, 0, 0,  2,  Zeka_Repairer_III
+P -5.2452, 214.4195, 457.3188,  127, 64, 0,  1,  Engineer_LXII_(roams)
+P 53.8354, 160.4072, 457.3188,  127, 64, 0,  2,  Technician_Masterwork
+P -12.3473, 301.4697, 621.3174,  127, 0, 0,  2,  Shocktroop_Commander_XIX
+P -83.4552, 197.8339, 1.9369,  127, 0, 0,  2,  Repair_Steamwork_XIV
