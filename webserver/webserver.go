@@ -67,5 +67,5 @@ func Index(w http.ResponseWriter, r *http.Request) {
 }
 
 func openBrowser(addr string) {
-	open.Run("http://" + addr + "/character/?name=s")
+	open.Run("http://" + addr + "/")
 }
