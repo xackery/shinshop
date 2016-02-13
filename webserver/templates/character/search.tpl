@@ -1,21 +1,21 @@
-{include file="../_header.tpl"}
+{{template "header" .}}
 <div class="container">
 	<div class="row" style="margin-top:60px;">
 		<div class="row">
 			<div class="col-md-12">
 				<ul class="breadcrumb">
-					<li><a href="/player/">Player</a></li>
+					<li><a href="/character/">Character</a></li>
 					<li class="active">Search</li>
 				</ul>
 			</div>
 		</div>
 		<div class="col-md-8 col-md-offset-2">
 			<div class="row">
-				<form class="well bs-component" action="/player/search" method="GET">
+				<form class="well bs-component" action="/character/search/" method="GET">
 					<div class="form-group">
-						<label class="control-label">Player Search</label>
+						<label class="control-label">Character Search</label>
 						<div class="input-group">
-							<input type="text" class="form-control" name="q" placeholder="{if !empty($q)}{$q}{/if}">
+							<input type="text" class="form-control" name="name" placeholder="{{.LastSearchQuery}}">
 							<span class="input-group-btn">
 								<button class="btn btn-default" type="button">Search</button>
 							</span>
@@ -23,37 +23,33 @@
 					</div>
 				</form>
 			</div>
-			{if !empty($searchResults)}
+			{{if .LastSearchQuery}}
 			<div class="row">
 				<div class="panel panel-default">
 					
 					<div class="panel-heading">
-						{if empty($characters)}
+					{{if .Characters}}
+						Found results.
+					{{else}}
 						There are no search results.
-					</div>
-					<div class="panel-body">
-						{else}
-						There {if $total == 1}is 1 player that matches {$q}.{else}are {$total} players that match '{$q}'. Showing {$start} to {$end}{/if}
-					</div>
+					{{end}}
+					</div>					
 					<div class="panel-body">
 						<ul class="list-group">
-							{foreach $characters item=character}
+						{{range $character := .Characters}}
 							<li class="list-group-item">
 								<span class="slot"></span>
-								{$character->name} {if !empty($character->guild_name)}&lt;{$character->guild_name}&gt; {/if}{$character->level} {$character->class_name} (Last Logged In: {$character->last_login_text})
+								{{$character.Name}} {{if $character.GuildName}}&lt; {{$character.GuildName}} &gt; {{end}}{{$character.Level}}{{$character.ClassName}} (Last Logged In: {{$character.LastLoginText}})
 								<br>
-								<a href="/account/manager/{$character->account_id}" class="btn btn-primary btn-xs"> <i class="glyphicon glyphicon-user"></i> Account</a>
-								<a href="/player/inventory/{$character->id}" class="btn btn-primary btn-xs"> <i class="glyphicon glyphicon-th"></i> Inventory</a>
+								<a href="/account/manager/?cid={{$character.Account_id}}" class="btn btn-primary btn-xs"> <i class="glyphicon glyphicon-user"></i> Account</a>
+								<a href="/character/inventory/?cid={{$character.Id}}" class="btn btn-primary btn-xs"> <i class="glyphicon glyphicon-th"></i> Inventory</a>
 							</li>
-							{/foreach}
 						</ul>
-						{/if}
+						{{end}}
 					</div>
-				</div> {*panel*}
+				</div>
 			</div>
-			{/if}
+			{{end}}
 		</div>
 	</div>
 </div>
-
-{*include file="../_footer.tpl"*}

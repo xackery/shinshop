@@ -12,12 +12,13 @@
 		<div class="collapse navbar-collapse" id="nav-header">
 			<ul class="nav navbar-nav">
 				<li><a href="/item"><span class="glyphicon glyphicon-leaf"></span> Item</a></li>
-				<li><a href="/character"><span class="glyphicon glyphicon-user"></span> Character</a></li>
+				<li><a href="/character/"><span class="glyphicon glyphicon-user"></span> Character</a></li>
+				<li><a href="/map/editor/"><span class="glyphicon glyphicon-map"></span> Map</a></li>
 				
 			</ul>
-			<form class="navbar-form navbar-left" action="/character/search" role="search" method="GET">
+			<form class="navbar-form navbar-left" action="/character/search/" role="search" method="GET">
 				<div class="form-group">
-					<input type="text" class="form-control" name="q" placeholder="Search">
+					<input type="text" class="form-control" name="name" placeholder="Search">
 				</div>
 				<button type="submit" class="btn btn-default">Submit</button>
 			</form>

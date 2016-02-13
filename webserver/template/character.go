@@ -13,6 +13,58 @@ func CharacterIndex(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
+func CharacterSearch(w http.ResponseWriter, r *http.Request) {
+
+	type Index struct {
+		Name string
+		*Site
+		Characters      []*character.CharacterOutput
+		LastSearchQuery string
+	}
+
+	resp := Index{
+		Name: "Testing2",
+		Site: SiteInit(),
+		//Character: &character.CharacterOutput{}, //Name: "Testing!", Id: 123},
+
+	}
+
+	params := r.URL.Query()
+	name := params.Get("name")
+	resp.LastSearchQuery = name
+
+	if len(name) > 0 {
+
+		config, err := eqemuconfig.GetConfig()
+		if err != nil {
+			log.Println("Error loading Config:", err.Error())
+			//TODO: exit properly
+			return
+		}
+
+		db, err := database.Connect(config)
+		if err != nil {
+			log.Println("Error connecting to DB:", err.Error())
+			//TODO: exit properly
+			return
+		}
+		defer db.Close()
+
+		characters, err := character.FindAllByName(db, name)
+		if err != nil {
+			log.Println("Error finding all names", err.Error())
+			return
+		}
+		resp.Characters = characters
+
+	}
+	err := contentTemplate["character/search"].Execute(w, resp)
+	if err != nil {
+		log.Println("Error executing search", err.Error())
+	}
+	return
+}
+
 func CharacterInventory(w http.ResponseWriter, r *http.Request) {
 	var err error
 
@@ -38,6 +90,7 @@ func CharacterInventory(w http.ResponseWriter, r *http.Request) {
 		//TODO: exit properly
 		return
 	}
+	defer db.Close()
 
 	type Index struct {
 		Name string
@@ -59,7 +112,7 @@ func CharacterInventory(w http.ResponseWriter, r *http.Request) {
 	}
 
 	resp.Character, err = character.GetById(db, id)
-	db.Close()
+
 	if err != nil {
 		log.Println("Error getting ID from DB:", err.Error())
 		return

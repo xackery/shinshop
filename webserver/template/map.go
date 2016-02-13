@@ -21,11 +21,20 @@ func MapEditor(w http.ResponseWriter, r *http.Request) {
 
 	type Index struct {
 		*Site
+		LastSearchQuery string
 	}
 
 	resp := Index{
 		Site: SiteInit(),
 	}
+
+	params := r.URL.Query()
+	name := params.Get("name")
+	if len(name) < 1 {
+		name = "kael"
+	}
+	resp.LastSearchQuery = name
+
 	//resp := someStruct{}
 	err = contentTemplate["map/editor"].Execute(w, resp)
 	if err != nil {

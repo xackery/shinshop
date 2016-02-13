@@ -63,7 +63,7 @@ function drawIntro(svg) {
 $.ajax({
         type: "POST",
         url: "/rest/map/getbyshortname/",
-        data: "name=kael",
+        data: "name="+name,
         success: function (data) {
         	
             var rest = jQuery.parseJSON(data);
