@@ -2,6 +2,7 @@ package webserver
 
 import (
 	//"github.com/gorilla/pat"
+	"fmt"
 	"github.com/skratchdot/open-golang/open"
 	"github.com/xackery/eqemuconfig"
 	"github.com/xackery/shinshop/database"
@@ -10,19 +11,29 @@ import (
 	"github.com/xackery/shinshop/webserver/template"
 	"log"
 	"net/http"
+	"os"
 )
 
+var isProduction = true
+
 func Start(addr string) (err error) {
+
 	config, err := eqemuconfig.GetConfig()
 	if err != nil {
 		log.Println("Error loading config:", err.Error())
-		return
+		fmt.Println("Press enter to exit.")
+		exit := ""
+		fmt.Scan(&exit)
+		os.Exit(1)
 	}
 	//Do a quick DB test
 	_, err = database.Connect(config)
 	if err != nil {
 		log.Println("Error connecting to DB:", err.Error())
-		return
+		fmt.Println("Press enter to exit.")
+		exit := ""
+		fmt.Scan(&exit)
+		os.Exit(1)
 	}
 
 	template.LoadTemplates()
@@ -52,13 +63,20 @@ func Start(addr string) (err error) {
 	log.Println("Started Web Server on", addr)
 	go openBrowser(addr)
 	err = http.ListenAndServe(addr, nil)
+	fmt.Println("Press enter to exit.")
+	exit := ""
+	fmt.Scan(&exit)
+	os.Exit(1)
 	return
 }
 
 func Index(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/" {
-		//http.FileServer(assetFS()).ServeHTTP(w, r)
-		http.FileServer(http.Dir("webserver/web/")).ServeHTTP(w, r)
+		if isProduction {
+			http.FileServer(assetFS()).ServeHTTP(w, r)
+		} else {
+			http.FileServer(http.Dir("webserver/web/")).ServeHTTP(w, r)
+		}
 		return
 	}
 	template.Index(w, r)
