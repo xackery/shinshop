@@ -1,8 +1,0 @@
-P -507.0000, -109.0000, 1.0000,  0, 0, 240,  3,  Scion_Brutish_Converter_(miniboss)
-P -621.0000, 384.0000, 50.0000,  0, 0, 240,  3,  boss_(Numleou_the_Learned)
-P -611.0000, 534.0000, 41.0000,  0, 0, 240,  3,  hostage_(Elaykari_the_Explorer)
-P 158.0000, 625.0000, 3.0000,  255, 0, 255,  3,  To_Lesser_Faydark
-P -741.3441, -111.2445, 9.2587,  240, 0, 0,  3,  Scion_(Page_2)
-P -166.0318, 284.6003, -19.4980,  240, 0, 0,  3,  Bloodguard_(Page_1)
-P -248.4213, -197.9711, 7.5020,  240, 0, 0,  3,  Alucard_(No_Page)
-P -625.5336, 509.3552, 41.2012,  240, 0, 0,  3,  Gatekeeper_(floor_down)
