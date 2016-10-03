@@ -1,5 +1,6 @@
-export VERSION="0.12"
+export VERSION="0.10"
 export NAME="shinshop"
+./packdata.sh
 echo Building Linux
 GOOS=linux GOARCH=amd64 go build main.go
 mv main bin/$NAME-$VERSION-linux-x64
