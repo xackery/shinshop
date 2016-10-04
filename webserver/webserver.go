@@ -71,7 +71,6 @@ func router(w http.ResponseWriter, r *http.Request) {
 
 		//web
 		if os.Getenv("SHINDEV") == "1" {
-			fmt.Println("FileServ")
 			http.FileServer(http.Dir("www/")).ServeHTTP(w, r)
 		} else {
 			http.FileServer(www.AssetFS()).ServeHTTP(w, r)

@@ -3,51 +3,37 @@ package web
 import (
 	"fmt"
 	"github.com/xackery/shinshop/webserver/www"
-	templatepkg "html/template"
+	"html/template"
 	"io/ioutil"
 	"os"
 )
 
-type template struct {
-	IsLoaded bool
-	Data     *templatepkg.Template
-}
-
-var templates map[string]*template
-
-func init() {
-	if templates == nil {
-		templates = make(map[string]*template)
+func ParseTemplateData(tpl *template.Template, path string) (err error) {
+	var data string
+	if data, err = readTemplateData(path); err != nil {
+		err = fmt.Errorf("failed loading %s template: %s", path, err.Error())
+		return
 	}
+	if tpl, err = tpl.Parse(data); err != nil {
+		err = fmt.Errorf("failed parsing %s template: %s", path, err.Error())
+		return
+	}
+	return
 }
 
-func GetTemplate(path string) (newTemplate *templatepkg.Template, err error) {
-	if templates[path] == nil || !templates[path].IsLoaded {
-		var data []byte
-		if os.Getenv("SHINDEV") == "1" {
-			if data, err = ioutil.ReadFile("www/" + path); err != nil {
-				err = fmt.Errorf("failed to find file (template) %s: %s", path, err.Error())
-				return
-			}
-		} else {
-			if data, err = www.Asset("www/" + path); err != nil {
-				err = fmt.Errorf("failed to find file (template) %s: %s", path, err.Error())
-				return
-			}
-		}
-		templateData := &templatepkg.Template{}
-		if templateData, err = templatepkg.New(path).Parse(string(data)); err != nil {
-			err = fmt.Errorf("failed loading template %s: %s", path, err.Error())
+func readTemplateData(path string) (data string, err error) {
+	var bData []byte
+	if os.Getenv("SHINDEV") == "1" {
+		if bData, err = ioutil.ReadFile("www/" + path); err != nil {
+			err = fmt.Errorf("failed to find file (template) %s: %s", path, err.Error())
 			return
 		}
-		templates[path] = &template{
-			IsLoaded: false,
-			Data:     templateData,
-		}
-		if os.Getenv("SHINDEV") != "1" {
-			templates[path].IsLoaded = true
+	} else {
+		if bData, err = www.Asset("www/" + path); err != nil {
+			err = fmt.Errorf("failed to find file (template) %s: %s", path, err.Error())
+			return
 		}
 	}
-	newTemplate = templates[path].Data
+	data = string(bData)
 	return
 }

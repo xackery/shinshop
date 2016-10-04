@@ -1,35 +1,3 @@
-<!DOCTYPE html>
-<!--[if IE 9 ]><html class="ie ie9" lang="en" class="no-js"> <![endif]-->
-<!--[if !(IE)]><!-->
-<html lang="en" class="no-js">
-<!--<![endif]-->
-
-<head>
-	<title>Dashboard | KingAdmin - Admin Dashboard</title>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-	<meta name="description" content="KingAdmin - Bootstrap Admin Dashboard Theme">
-	<meta name="author" content="The Develovers">
-	<!-- CSS -->
-	<link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
-	<link href="assets/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-	<link href="assets/css/main.css" rel="stylesheet" type="text/css">
-	<link href="assets/css/my-custom-styles.css" rel="stylesheet" type="text/css">
-	<!--[if lte IE 9]>
-		<link href="assets/css/main-ie.css" rel="stylesheet" type="text/css"/>
-		<link href="assets/css/main-ie-part2.css" rel="stylesheet" type="text/css"/>
-	<![endif]-->
-	<!-- CSS for demo style switcher. you can remove this -->
-	<link href="demo-style-switcher/assets/css/style-switcher.css" rel="stylesheet" type="text/css">
-	<!-- Fav and touch icons -->
-	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="assets/ico/kingadmin-favicon144x144.png">
-	<link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/ico/kingadmin-favicon114x114.png">
-	<link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/ico/kingadmin-favicon72x72.png">
-	<link rel="apple-touch-icon-precomposed" sizes="57x57" href="assets/ico/kingadmin-favicon57x57.png">
-	<link rel="shortcut icon" href="assets/ico/favicon.png">
-</head>
-
 <body class="sidebar-fixed topnav-fixed dashboard4">
 	<!-- WRAPPER -->
 	<div id="wrapper" class="wrapper">
@@ -41,7 +9,7 @@
 					<!-- logo -->
 					<div class="pull-left left logo">
 						<a href="index.html"><img src="assets/img/kingadmin-logo-white.png" alt="KingAdmin - Admin Dashboard" /></a>
-						<h1 class="sr-only">KingAdmin Admin Dashboard</h1>
+						<h1 class="sr-only">Shinshop Dashboard</h1>
 					</div>
 					<!-- end logo -->
 					<div class="pull-right right">
@@ -56,175 +24,9 @@
 						</div>
 						<!-- end search box -->
 						<!-- top-bar-right -->
-						<div class="top-bar-right">
-							<button type="button" id="start-tour" class="btn btn-link"><i class="fa fa-refresh"></i> Start Tour</button>
+						<div class="top-bar-right">						
 							<button type="button" id="global-volume" class="btn btn-link btn-global-volume"><i class="fa"></i></button>
-							<div class="notifications">
-								<ul>
-									<!-- notification: inbox -->
-									<li class="notification-item inbox">
-										<div class="btn-group">
-											<a href="index-dashboard-v4.html#" class="dropdown-toggle" data-toggle="dropdown">
-												<i class="fa fa-envelope"></i><span class="count">2</span>
-												<span class="circle"></span>
-											</a>
-											<ul class="dropdown-menu" role="menu">
-												<li class="notification-header">
-													<em>You have 2 unread messages</em>
-												</li>
-												<li class="inbox-item clearfix">
-													<a href="index-dashboard-v4.html#">
-														<div class="media">
-															<div class="media-left">
-																<img class="media-object" src="assets/img/user1.png" alt="Antonio">
-															</div>
-															<div class="media-body">
-																<h5 class="media-heading name">Antonius</h5>
-																<p class="text">The problem just happened this morning. I can't see ...</p>
-																<span class="timestamp">4 minutes ago</span>
-															</div>
-														</div>
-													</a>
-												</li>
-												<li class="inbox-item unread clearfix">
-													<a href="index-dashboard-v4.html#">
-														<div class="media">
-															<div class="media-left">
-																<img class="media-object" src="assets/img/user2.png" alt="Antonio">
-															</div>
-															<div class="media-body">
-																<h5 class="media-heading name">Michael</h5>
-																<p class="text">Hey dude, cool theme!</p>
-																<span class="timestamp">2 hours ago</span>
-															</div>
-														</div>
-													</a>
-												</li>
-												<li class="inbox-item unread clearfix">
-													<a href="index-dashboard-v4.html#">
-														<div class="media">
-															<div class="media-left">
-																<img class="media-object" src="assets/img/user3.png" alt="Antonio">
-															</div>
-															<div class="media-body">
-																<h5 class="media-heading name">Stella</h5>
-																<p class="text">Ok now I can see the status for each item. Thanks! :D</p>
-																<span class="timestamp">Oct 6</span>
-															</div>
-														</div>
-													</a>
-												</li>
-												<li class="inbox-item clearfix">
-													<a href="index-dashboard-v4.html#">
-														<div class="media">
-															<div class="media-left">
-																<img class="media-object" src="assets/img/user4.png" alt="Antonio">
-															</div>
-															<div class="media-body">
-																<h5 class="media-heading name">Jane Doe</h5>
-																<p class="text"><i class="fa fa-reply"></i> Please check the status of your ...</p>
-																<span class="timestamp">Oct 2</span>
-															</div>
-														</div>
-													</a>
-												</li>
-												<li class="inbox-item clearfix">
-													<a href="index-dashboard-v4.html#">
-														<div class="media">
-															<div class="media-left">
-																<img class="media-object" src="assets/img/user5.png" alt="Antonio">
-															</div>
-															<div class="media-body">
-																<h5 class="media-heading name">John Simmons</h5>
-																<p class="text"><i class="fa fa-reply"></i> I've fixed the problem :)</p>
-																<span class="timestamp">Sep 12</span>
-															</div>
-														</div>
-													</a>
-												</li>
-												<li class="notification-footer">
-													<a href="index-dashboard-v4.html#">View All Messages</a>
-												</li>
-											</ul>
-										</div>
-									</li>
-									<!-- end notification: inbox -->
-									<!-- notification: general -->
-									<li class="notification-item general">
-										<div class="btn-group">
-											<a href="index-dashboard-v4.html#" class="dropdown-toggle" data-toggle="dropdown">
-												<i class="fa fa-bell"></i><span class="count">8</span>
-												<span class="circle"></span>
-											</a>
-											<ul class="dropdown-menu" role="menu">
-												<li class="notification-header">
-													<em>You have 8 notifications</em>
-												</li>
-												<li>
-													<a href="index-dashboard-v4.html#">
-														<i class="fa fa-comment green-font"></i>
-														<span class="text">New comment on the blog post</span>
-														<span class="timestamp">1 minute ago</span>
-													</a>
-												</li>
-												<li>
-													<a href="index-dashboard-v4.html#">
-														<i class="fa fa-user green-font"></i>
-														<span class="text">New registered user</span>
-														<span class="timestamp">12 minutes ago</span>
-													</a>
-												</li>
-												<li>
-													<a href="index-dashboard-v4.html#">
-														<i class="fa fa-comment green-font"></i>
-														<span class="text">New comment on the blog post</span>
-														<span class="timestamp">18 minutes ago</span>
-													</a>
-												</li>
-												<li>
-													<a href="index-dashboard-v4.html#">
-														<i class="fa fa-shopping-cart red-font"></i>
-														<span class="text">4 new sales order</span>
-														<span class="timestamp">4 hours ago</span>
-													</a>
-												</li>
-												<li>
-													<a href="index-dashboard-v4.html#">
-														<i class="fa fa-edit yellow-font"></i>
-														<span class="text">3 product reviews awaiting moderation</span>
-														<span class="timestamp">1 day ago</span>
-													</a>
-												</li>
-												<li>
-													<a href="index-dashboard-v4.html#">
-														<i class="fa fa-comment green-font"></i>
-														<span class="text">New comment on the blog post</span>
-														<span class="timestamp">3 days ago</span>
-													</a>
-												</li>
-												<li>
-													<a href="index-dashboard-v4.html#">
-														<i class="fa fa-comment green-font"></i>
-														<span class="text">New comment on the blog post</span>
-														<span class="timestamp">Oct 15</span>
-													</a>
-												</li>
-												<li>
-													<a href="index-dashboard-v4.html#">
-														<i class="fa fa-warning red-font"></i>
-														<span class="text red-font">Low disk space!</span>
-														<span class="timestamp">Oct 11</span>
-													</a>
-												</li>
-												<li class="notification-footer">
-													<a href="index-dashboard-v4.html#">View All Notifications</a>
-												</li>
-											</ul>
-										</div>
-									</li>
-									<!-- end notification: general -->
-								</ul>
-							</div>
+							
 							<!-- logged user and the menu -->
 							<div class="logged-user">
 								<div class="btn-group">
@@ -269,7 +71,7 @@
 			<div class="sidebar-scroll">
 				<nav class="main-nav">
 					<ul class="main-menu">
-						<li class="active"><a href="index-dashboard-v4.html#" class="js-sub-menu-toggle"><i class="fa fa-dashboard fa-fw"></i><span class="text">Dashboard</span>
+						<li class="active"><a href="index-dashboard-v4.html#" class="js-sub-menu-toggle"><i class="fa fa-dashboard fa-fw"></i><span class="text">{{.Title}} Dashboard</span>
 							<i class="toggle-icon fa fa-angle-down"></i></a>
 							<ul class="sub-menu open">
 								<li><a href="index.html"><span class="text">Dashboard v1</span></a></li>
