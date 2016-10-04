@@ -16,9 +16,11 @@ func Index(w http.ResponseWriter, r *http.Request) (err error) {
 	paths := []string{
 		"_header.tpl",
 		"index.tpl",
-		//"_footer.tpl",
+		"_sidebar.tpl",
+		"_footer.tpl",
 	}
 
+	//Load templates only once (unless dev)
 	if indexTemplate == nil || os.Getenv("SHINDEV") == "1" {
 		indexTemplate = template.New("index")
 
@@ -30,21 +32,27 @@ func Index(w http.ResponseWriter, r *http.Request) (err error) {
 		}
 	}
 
+	//Prepare template data
 	type templateData struct {
 		*SiteData
 		Content string
 	}
 
+	//Custom index page content
 	data := &templateData{
 		Content: "Shinshop!",
 	}
 
+	//prepare general content
 	if data.SiteData, err = NewSiteData(); err != nil {
 		err = fmt.Errorf("error loading new site data: %s", err.Error())
 		return
 	}
 
+	//set any overrides to general content
 	data.Title = "Shinshop | Index"
+
+	//render template
 	for _, path := range paths {
 		if err = indexTemplate.ExecuteTemplate(w, path, data); err != nil {
 			err = fmt.Errorf("error rendering %s: %s", path, err.Error())
