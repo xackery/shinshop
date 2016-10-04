@@ -1,4 +1,4 @@
-{{define "header"}}
+{{define "_header.tpl"}}
 <!DOCTYPE html>
 <!--[if IE 9 ]><html class="ie ie9" lang="en" class="no-js"> <![endif]-->
 <!--[if !(IE)]><!-->

@@ -14,7 +14,8 @@ func ParseTemplateData(tpl *template.Template, path string) (err error) {
 		err = fmt.Errorf("failed loading %s template: %s", path, err.Error())
 		return
 	}
-	if tpl, err = tpl.Parse(data); err != nil {
+
+	if tpl, err = tpl.New(path).Parse(data); err != nil {
 		err = fmt.Errorf("failed parsing %s template: %s", path, err.Error())
 		return
 	}

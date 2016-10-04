@@ -7,12 +7,15 @@ import (
 	"os"
 )
 
+//this stores the template, should be written once. (Dev can cause race conditions)
 var indexTemplate *template.Template
 
 func Index(w http.ResponseWriter, r *http.Request) (err error) {
-	paths := map[string]string{
-		"header": "_header.tpl",
-		"index":  "index.tpl",
+
+	//Which templates to load
+	paths := []string{
+		"_header.tpl",
+		"index.tpl",
 		//"_footer.tpl",
 	}
 
@@ -42,9 +45,9 @@ func Index(w http.ResponseWriter, r *http.Request) (err error) {
 	}
 
 	data.Title = "Shinshop | Index"
-	for name, _ := range paths {
-		if err = indexTemplate.ExecuteTemplate(w, name, data); err != nil {
-			err = fmt.Errorf("error rendering %s: %s", name, err.Error())
+	for _, path := range paths {
+		if err = indexTemplate.ExecuteTemplate(w, path, data); err != nil {
+			err = fmt.Errorf("error rendering %s: %s", path, err.Error())
 			return
 		}
 	}
